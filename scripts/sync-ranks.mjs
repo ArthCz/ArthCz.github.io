@@ -146,7 +146,9 @@ function readSite() {
   const sf6 = source.match(/https:\/\/sfstats\.app\/players\/[^\s'"]+/)?.[0];
   const t8 = source.match(/https:\/\/ewgf\.gg\/player\/[^\s'"]+/)?.[0];
   if (!sf6 || !t8) throw new Error('não encontrei os links de perfil em src/data/site.js');
-  return { sf6, t8 };
+  // Personagem principal do SF6: declarado à mão em site.js.
+  const mainCharacter = source.match(/mainCharacter:\s*['"]([^'"]+)['"]/)?.[1] ?? null;
+  return { sf6, t8, mainCharacter };
 }
 
 function readExisting() {
@@ -161,7 +163,7 @@ function readExisting() {
 // ---------------------------------------------------------------------------
 // Street Fighter 6
 // ---------------------------------------------------------------------------
-async function syncStreetFighter(profileUrl) {
+async function syncStreetFighter(profileUrl, declaredMain) {
   const id = profileUrl.match(/-(\d+)$/)?.[1] ?? profileUrl.match(/(\d{6,})/)?.[1];
   if (!id) throw new Error('não consegui o ID do lutador no link do sfstats');
 
@@ -174,7 +176,11 @@ async function syncStreetFighter(profileUrl) {
   const played = (capcom.characterWinRates ?? []).filter((c) => (c.games ?? 0) > 0 && c.character);
   if (!played.length) throw new Error('o perfil não retornou nenhum personagem jogado');
 
-  const main = stats.fighter?.mainCharacter ?? null;
+  // Quem manda é o que está declarado em site.js: o perfil costuma errar.
+  const main = declaredMain ?? stats.fighter?.mainCharacter ?? null;
+  if (declaredMain && !played.some((c) => c.character === declaredMain)) {
+    console.log(`  aviso    "${declaredMain}" não aparece no elenco lido do perfil`);
+  }
   const roster = [];
 
   for (const entry of played) {
@@ -296,7 +302,7 @@ async function syncTekken(profileUrl) {
       score: null,
       games,
       rate: games ? Math.round((wins / games) * 1000) / 10 : null,
-      rating: `μ ${rating.mu.toLocaleString('pt-BR')} · σ² ${rating.sigma}`,
+      rating: rating.mu.toLocaleString('pt-BR'),
       main: false,
     });
   }
@@ -320,11 +326,11 @@ const ranks = {
 const problems = [];
 
 try {
-  const { sf6, t8 } = readSite();
+  const { sf6, t8, mainCharacter } = readSite();
   console.log(`Sincronizando ranks de ${sf6} e ${t8}…\n`);
 
   try {
-    const data = await syncStreetFighter(sf6);
+    const data = await syncStreetFighter(sf6, mainCharacter);
     ranks.games['street-fighter-6'] = data;
     console.log(`  SF6      ${data.roster.length} personagem(ns)`);
     for (const char of data.roster.slice(0, 4)) {

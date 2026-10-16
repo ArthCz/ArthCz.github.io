@@ -8,7 +8,7 @@ import Rule from './Rule.astro';
 const { eyebrow, title, lead } = Astro.props;
 ---
 
-<header class="section-head">
+<header class="section-head" data-reveal>
   {eyebrow && <p class="kicker kicker--accent">{eyebrow}</p>}
   <h2 class="section-head__title">{title}</h2>
   {lead && <p class="lead section-head__lead">{lead}</p>}

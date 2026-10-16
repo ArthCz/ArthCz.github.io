@@ -1,9 +1,9 @@
 {
-  "syncedAt": "2026-10-16T18:18:49.295Z",
+  "syncedAt": "2026-10-16T18:50:49.634Z",
   "games": {
     "street-fighter-6": {
       "source": "https://sfstats.app/players/arthcz-3640020287",
-      "main": "Luke",
+      "main": "Cammy",
       "roster": [
         {
           "name": "Chun-Li",
@@ -25,7 +25,7 @@
           "score": null,
           "games": 170,
           "rate": 30,
-          "main": false
+          "main": true
         },
         {
           "name": "Alex",
@@ -91,7 +91,7 @@
           "score": "1.500 MR",
           "games": 88,
           "rate": 69.3,
-          "main": true
+          "main": false
         },
         {
           "name": "Ed",
@@ -217,7 +217,7 @@
           "score": null,
           "games": 83,
           "rate": 57.8,
-          "rating": "μ 1.520 · σ² 82",
+          "rating": "1.520",
           "main": true
         },
         {
@@ -229,7 +229,7 @@
           "score": null,
           "games": 10,
           "rate": 10,
-          "rating": "μ 1.029 · σ² 219",
+          "rating": "1.029",
           "main": false
         }
       ]

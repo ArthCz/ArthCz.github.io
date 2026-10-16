@@ -48,5 +48,43 @@ const canonical = site.url ? new URL(Astro.url.pathname, site.url).href : null;
       <slot />
     </main>
     <Footer />
+
+    <script is:inline>
+      // Entrada dos blocos marcados com data-reveal: o que já está na tela
+      // aparece de imediato e o resto entra quando chega perto. O CSS só passa
+      // a esconder depois que o observador está de pé — se qualquer coisa
+      // falhar aqui, a página aparece inteira, sem animação.
+      (function () {
+        var alvos = document.querySelectorAll('[data-reveal]');
+        if (!alvos.length || !('IntersectionObserver' in window)) return;
+
+        var altura = window.innerHeight || document.documentElement.clientHeight;
+
+        for (var i = 0; i < alvos.length; i += 1) {
+          if (alvos[i].getBoundingClientRect().top < altura) alvos[i].classList.add('is-visible');
+        }
+
+        var observador;
+
+        try {
+          observador = new IntersectionObserver(
+            function (entradas) {
+              for (var k = 0; k < entradas.length; k += 1) {
+                if (!entradas[k].isIntersecting) continue;
+                entradas[k].target.classList.add('is-visible');
+                observador.unobserve(entradas[k].target);
+              }
+            },
+            { rootMargin: '0px 0px -6% 0px' },
+          );
+
+          for (var j = 0; j < alvos.length; j += 1) observador.observe(alvos[j]);
+        } catch (erro) {
+          return;
+        }
+
+        document.documentElement.classList.add('js-reveal');
+      })();
+    </script>
   </body>
 </html>

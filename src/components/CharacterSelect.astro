@@ -335,6 +335,9 @@ const pct = (value) =>
     border-color: var(--crimson);
     background: var(--surface-3);
     color: var(--silver);
+    box-shadow:
+      0 0 0 1px rgba(200, 16, 46, 0.32),
+      0 12px 28px -20px rgba(200, 16, 46, 0.9);
   }
 
   .select__thumb {
@@ -348,11 +351,14 @@ const pct = (value) =>
     height: 100%;
     object-fit: contain;
     filter: grayscale(1) brightness(0.78);
-    transition: filter 0.25s var(--ease);
+    transition:
+      filter 0.25s var(--ease),
+      transform 0.35s var(--ease);
   }
 
   .select__tab:hover .select__thumb img {
     filter: grayscale(0.5) brightness(0.92);
+    transform: translateY(-2px);
   }
 
   .select__tab[aria-selected='true'] .select__thumb img {

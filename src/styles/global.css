@@ -122,8 +122,9 @@ button {
 }
 
 :focus-visible {
-  outline: 1px solid var(--silver);
+  outline: 1px solid var(--crimson-2);
   outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgba(200, 16, 46, 0.15);
 }
 
 /* 3. Tipografia ------------------------------------------------------------- */
@@ -264,7 +265,8 @@ p {
   width: 7px;
   height: 7px;
   flex: none;
-  border: 1px solid var(--silver-mute);
+  border: 1px solid var(--crimson);
+  box-shadow: 0 0 10px rgba(200, 16, 46, 0.45);
   transform: rotate(45deg);
 }
 
@@ -347,13 +349,23 @@ p {
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease),
-    color 0.3s var(--ease);
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 
 .btn:hover {
   border-color: var(--line-strong);
   background: rgba(236, 232, 225, 0.05);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px -24px rgba(0, 0, 0, 0.95);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn--primary {
@@ -365,6 +377,7 @@ p {
 .btn--primary:hover {
   background: var(--crimson-2);
   border-color: var(--crimson-2);
+  box-shadow: 0 18px 36px -18px rgba(200, 16, 46, 0.75);
 }
 
 .btn--discord {
@@ -380,6 +393,7 @@ p {
 
 /* 12. Link discreto --------------------------------------------------------- */
 .link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -388,8 +402,31 @@ p {
   transition: color 0.25s var(--ease);
 }
 
+/* Traço que cresce sob o link quando o mouse passa ou o foco chega. */
+.link::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -0.35rem;
+  left: 0;
+  height: 1px;
+  background: var(--crimson-2);
+  opacity: 0;
+  transform: scaleX(0.35);
+  transform-origin: left center;
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.4s var(--ease);
+}
+
 .link:hover {
   color: var(--silver);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  opacity: 0.85;
+  transform: scaleX(1);
 }
 
 /* 13. Etiqueta -------------------------------------------------------------- */
@@ -537,10 +574,55 @@ p {
   text-align: center;
 }
 
-/* 17. Movimento reduzido ---------------------------------------------------- */
+/* 17. Atmosfera: grão e vinheta --------------------------------------------- */
+/* A textura fina lembra o material das artes do canal. Fica fixa na tela, não
+   recebe clique e não muda a leitura de nada. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 88% at 50% 0%, transparent 55%, rgba(5, 5, 6, 0.45));
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: -12%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='grao'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grao)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* 18. Movimento: entrada suave dos blocos ----------------------------------- */
+/* Um bloco com data-reveal só começa escondido quando o script está ligado
+   (html.js). Sem script, ele aparece normalmente desde o primeiro desenho. */
+html.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+}
+
+html.js-reveal [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 19. Movimento reduzido ---------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  /* Aqui o conteúdo entra direto, sem deslocamento. */
+  html.js-reveal [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 
   *,

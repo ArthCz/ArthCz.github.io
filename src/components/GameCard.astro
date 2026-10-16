@@ -5,7 +5,7 @@ import CharacterSelect from './CharacterSelect.astro';
 const { game, roster } = Astro.props;
 ---
 
-<article class="game" id={game.slug}>
+<article class="game" id={game.slug} data-reveal>
   <figure class="game__cover">
     <img
       src={game.cover}
@@ -71,6 +71,11 @@ const { game, roster } = Astro.props;
     height: auto;
     aspect-ratio: 2 / 3;
     object-fit: cover;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .game:hover .game__cover img {
+    transform: scale(1.04);
   }
 
   .game__cover::after {

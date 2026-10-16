@@ -12,7 +12,7 @@ const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentP
     <h2 class="sr-only">Transmissões e vídeos</h2>
 
     <div class="streams">
-      <div class="panel">
+      <div class="panel" data-reveal>
         <div class="panel__head">
           <span class="panel__title">
             <Icon name="twitch" size={14} /> <span class="label">Twitch · {twitch.label}</span>
@@ -51,7 +51,7 @@ const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentP
 
       </div>
 
-      <aside class="panel">
+      <aside class="panel" data-reveal>
         <div class="panel__head">
           <span class="panel__title">
             <Icon name="youtube" size={14} />

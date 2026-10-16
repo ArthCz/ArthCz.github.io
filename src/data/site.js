@@ -90,6 +90,10 @@ export const discord = {
  *  - rating    → rating da comunidade, quando existir (opcional)
  *  - main      → true deixa o personagem já selecionado no menu
  *
+ * No Street Fighter 6 o elenco inteiro vem do perfil, e o perfil erra o
+ * "principal" com frequência: por isso ele é declarado abaixo.
+ *  - mainCharacter → personagem que leva o selo "Principal" no menu
+ *
  * Perfis públicos que o sync lê:
  *  - Street Fighter 6 → https://sfstats.app/players/arthcz-3640020287
  *  - Tekken 8         → https://wank.wavu.wiki/player/33jE68FB8bFd
@@ -105,6 +109,7 @@ export const games = [
       official: 'https://www.streetfighter.com/6/',
       profile: 'https://sfstats.app/players/arthcz-3640020287',
     },
+    mainCharacter: 'Cammy',
     // Elenco, ranks e selos são gerados pelo `npm run sync` a partir do perfil.
     roster: [],
   },
