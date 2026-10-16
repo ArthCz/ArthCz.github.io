@@ -3,6 +3,11 @@ import Icon from './Icon.astro';
 import CharacterSelect from './CharacterSelect.astro';
 
 const { game, roster } = Astro.props;
+
+// O link de perfil leva para o site de estatísticas que serve de fonte dos
+// números. O botão diz o nome desse site, para ninguém achar que é o perfil
+// oficial do jogo.
+const perfilHost = game.links.profile ? new URL(game.links.profile).hostname : null;
 ---
 
 <article class="game" id={game.slug} data-reveal>
@@ -28,7 +33,7 @@ const { game, roster } = Astro.props;
         {
           game.links.profile && (
             <a class="link" href={game.links.profile} target="_blank" rel="noopener noreferrer">
-              Perfil e ranks <Icon name="external" size={12} />
+              Estatísticas no {perfilHost} <Icon name="external" size={12} />
             </a>
           )
         }

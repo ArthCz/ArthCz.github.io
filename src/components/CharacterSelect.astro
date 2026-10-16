@@ -203,7 +203,8 @@ const pct = (value) =>
   }
 
   .select__portrait img {
-    max-height: 260px;
+    max-height: 300px;
+    max-width: 100%;
     width: auto;
     object-fit: contain;
   }
@@ -243,7 +244,7 @@ const pct = (value) =>
 
   .select__name {
     font-family: var(--font-display);
-    font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+    font-size: clamp(2rem, 4vw, 2.9rem);
     font-weight: 600;
     line-height: 1;
     letter-spacing: -0.01em;
@@ -261,7 +262,7 @@ const pct = (value) =>
     align-items: baseline;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 0.6rem 0;
+    padding: 0.7rem 0;
     border-bottom: 1px solid var(--line);
   }
 
@@ -276,7 +277,8 @@ const pct = (value) =>
 
   .stats__row dd {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
     color: var(--silver-2);
     text-align: right;
   }
@@ -297,7 +299,7 @@ const pct = (value) =>
   /* Imagem oficial do rank (wordmark do jogo) no lugar do texto. */
   .stats__badge {
     display: block;
-    width: 168px;
+    width: 188px;
     max-width: 100%;
     height: auto;
   }
@@ -389,6 +391,26 @@ const pct = (value) =>
       margin: 0;
       max-width: none;
       min-height: 240px;
+    }
+  }
+
+  /* Onde há espaço de verdade o palco cresce: o personagem escolhido passa a
+     ser o destaque da seção, como numa tela de seleção. */
+  @container (min-width: 620px) {
+    .select__panel {
+      grid-template-columns: minmax(210px, 290px) minmax(0, 1fr);
+      gap: 2rem;
+    }
+
+    .select__portrait {
+      min-height: 300px;
+      background:
+        radial-gradient(120% 70% at 50% 100%, rgba(200, 16, 46, 0.18), transparent 72%),
+        var(--surface-2);
+    }
+
+    .select__portrait img {
+      max-height: 330px;
     }
   }
 

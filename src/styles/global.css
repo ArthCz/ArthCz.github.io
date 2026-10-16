@@ -140,7 +140,7 @@ h4 {
 }
 
 h2 {
-  font-size: clamp(2rem, 4.6vw, 3.1rem);
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
 }
 
 h3 {
