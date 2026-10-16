@@ -1,0 +1,238 @@
+{
+  "syncedAt": "2026-10-16T17:47:29.573Z",
+  "games": {
+    "street-fighter-6": {
+      "source": "https://sfstats.app/players/arthcz-3640020287",
+      "main": "Luke",
+      "roster": [
+        {
+          "name": "Chun-Li",
+          "slug": "chun-li",
+          "image": "/roster/sf6/chun-li.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 270,
+          "rate": 53.7,
+          "main": false
+        },
+        {
+          "name": "Cammy",
+          "slug": "cammy",
+          "image": "/roster/sf6/cammy.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 170,
+          "rate": 30,
+          "main": false
+        },
+        {
+          "name": "Alex",
+          "slug": "alex",
+          "image": "/roster/sf6/alex.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 163,
+          "rate": 58.3,
+          "main": false
+        },
+        {
+          "name": "Ken",
+          "slug": "ken",
+          "image": "/roster/sf6/ken.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 157,
+          "rate": 60.5,
+          "main": false
+        },
+        {
+          "name": "Jamie",
+          "slug": "jamie",
+          "image": "/roster/sf6/jamie.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 117,
+          "rate": 57.3,
+          "main": false
+        },
+        {
+          "name": "Juri",
+          "slug": "juri",
+          "image": "/roster/sf6/juri.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 114,
+          "rate": 65.8,
+          "main": false
+        },
+        {
+          "name": "Manon",
+          "slug": "manon",
+          "image": "/roster/sf6/manon.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 111,
+          "rate": 48.6,
+          "main": false
+        },
+        {
+          "name": "Luke",
+          "slug": "luke",
+          "image": "/roster/sf6/luke.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 88,
+          "rate": 69.3,
+          "main": true
+        },
+        {
+          "name": "Ed",
+          "slug": "ed",
+          "image": "/roster/sf6/ed.webp",
+          "rank": "Diamond ★3",
+          "rankImage": "/roster/sf6/rank-33.webp",
+          "score": "22.047 LP",
+          "games": 87,
+          "rate": 59.8,
+          "main": false
+        },
+        {
+          "name": "Sagat",
+          "slug": "sagat",
+          "image": "/roster/sf6/sagat.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 43,
+          "rate": 76.7,
+          "main": false
+        },
+        {
+          "name": "Elena",
+          "slug": "elena",
+          "image": "/roster/sf6/elena.webp",
+          "rank": "Master",
+          "rankImage": "/roster/sf6/rank-36.webp",
+          "score": "1.500 MR",
+          "games": 39,
+          "rate": 41,
+          "main": false
+        },
+        {
+          "name": "Ryu",
+          "slug": "ryu",
+          "image": "/roster/sf6/ryu.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 18,
+          "rate": 55.6,
+          "main": false
+        },
+        {
+          "name": "Yasmine",
+          "slug": "yasmine",
+          "image": "/roster/sf6/yasmine.webp",
+          "rank": "Diamond ★3",
+          "rankImage": "/roster/sf6/rank-33.webp",
+          "score": "22.560 LP",
+          "games": 11,
+          "rate": 54.5,
+          "main": false
+        },
+        {
+          "name": "JP",
+          "slug": "jp",
+          "image": "/roster/sf6/jp.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 9,
+          "rate": 77.8,
+          "main": false
+        },
+        {
+          "name": "Arjun",
+          "slug": "arjun",
+          "image": "/roster/sf6/arjun.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 8,
+          "rate": 62.5,
+          "main": false
+        },
+        {
+          "name": "Marisa",
+          "slug": "marisa",
+          "image": "/roster/sf6/marisa.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 5,
+          "rate": 40,
+          "main": false
+        },
+        {
+          "name": "A.K.I.",
+          "slug": "a-k-i",
+          "image": "/roster/sf6/a-k-i.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 3,
+          "rate": 33.3,
+          "main": false
+        },
+        {
+          "name": "Terry",
+          "slug": "terry",
+          "image": "/roster/sf6/terry.webp",
+          "rank": "New Challenger",
+          "rankImage": "/roster/sf6/rank-39.webp",
+          "score": null,
+          "games": 2,
+          "rate": 100,
+          "main": false
+        }
+      ]
+    },
+    "tekken-8": {
+      "source": "https://wank.wavu.wiki/player/33jE68FB8bFd",
+      "roster": [
+        {
+          "name": "Bryan Fury",
+          "slug": "bryan-fury",
+          "image": null,
+          "rank": null,
+          "rankImage": null,
+          "score": null,
+          "games": 83,
+          "rate": 57.8,
+          "rating": "μ 1.520 · σ² 82",
+          "main": true
+        },
+        {
+          "name": "Devil Jin",
+          "slug": "devil-jin",
+          "image": null,
+          "rank": null,
+          "rankImage": null,
+          "score": null,
+          "games": 10,
+          "rate": 10,
+          "rating": "μ 1.029 · σ² 219",
+          "main": false
+        }
+      ]
+    }
+  }
+}

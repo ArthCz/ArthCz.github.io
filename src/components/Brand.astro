@@ -1,0 +1,65 @@
+---
+/**
+ * Brand — marca do canal: a foto real da Twitch dentro de um medalhão
+ * com anel duplo, seguida do nome em serifada.
+ */
+import { site } from '../data/site.js';
+
+const { size = 'sm' } = Astro.props;
+const medallion = size === 'lg' ? 'medallion medallion--lg' : 'medallion medallion--sm';
+---
+
+<span class="brand">
+  <span class={medallion}>
+    <img
+      src="/brand/arthcz-avatar.png"
+      alt=""
+      width="128"
+      height="128"
+      loading="lazy"
+      decoding="async"
+    />
+  </span>
+  <span class="brand__text">
+    <span class="brand__name">{site.short}</span>
+    <span class="brand__sub">Arena</span>
+  </span>
+</span>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .brand__name {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--silver);
+  }
+
+  .brand__sub {
+    margin-top: 0.25rem;
+    font-family: var(--font-body);
+    font-size: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--silver-mute);
+  }
+
+  @media (max-width: 420px) {
+    .brand__name {
+      font-size: 1.2rem;
+    }
+  }
+</style>

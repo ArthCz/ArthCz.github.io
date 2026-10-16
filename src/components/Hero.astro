@@ -1,0 +1,171 @@
+---
+import Icon from './Icon.astro';
+import Ornament from './Ornament.astro';
+import Rule from './Rule.astro';
+import { site, twitch, youtube, discord, games } from '../data/site.js';
+---
+
+<section class="hero" id="inicio">
+  <div class="hero__glow" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero__stage frame-ornate">
+      <Ornament size={30} />
+
+      <div class="hero__emblem">
+        <p class="kicker">Twitch · YouTube · Fighting games</p>
+
+        <span class="medallion medallion--lg">
+          <img
+            src="/brand/arthcz-avatar.png"
+            alt=""
+            width="128"
+            height="128"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </span>
+
+        <h1 class="hero__name aberrate">{site.short}</h1>
+        <span class="ribbon">Arena</span>
+      </div>
+
+      <div class="hero__body">
+        <p class="hero__lead">
+          Central oficial das lives de ArthCz na Twitch e no YouTube. Fighting games, clipes e a
+          comunidade da arena reunidos em um só lugar.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href={twitch.url} target="_blank" rel="noopener noreferrer">
+            <Icon name="twitch" size={15} /> Assistir na Twitch
+          </a>
+          <a class="btn" href={youtube.url} target="_blank" rel="noopener noreferrer">
+            <Icon name="youtube" size={15} /> YouTube
+          </a>
+          <a class="btn btn--discord" href={discord.url} target="_blank" rel="noopener noreferrer">
+            <Icon name="discord" size={15} /> Discord
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <Rule />
+
+    <ul class="hero__foot">
+      {games.map((game) => <li>{game.name}</li>)}
+      <li>Lives &amp; clipes</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(2.25rem, 5vw, 3.75rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .hero__glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(880px 460px at 50% -8%, rgba(236, 232, 225, 0.07), transparent 62%),
+      radial-gradient(680px 420px at 84% 100%, rgba(200, 16, 46, 0.1), transparent 66%);
+    pointer-events: none;
+  }
+
+  .hero__stage {
+    position: relative;
+    padding: clamp(2.5rem, 6vw, 4.25rem) clamp(1.25rem, 5vw, 4rem) clamp(2.25rem, 5vw, 3.5rem);
+    background:
+      linear-gradient(180deg, rgba(236, 232, 225, 0.022), transparent 38%),
+      var(--ink-2);
+  }
+
+  .hero__emblem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero__name {
+    margin-block: 1.7rem 0.85rem;
+    font-size: clamp(3.4rem, 13vw, 8.2rem);
+    font-weight: 600;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+  }
+
+  .hero__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.1rem;
+    margin-top: clamp(2rem, 4vw, 2.75rem);
+    text-align: center;
+  }
+
+  .hero__lead {
+    max-width: 62ch;
+    color: var(--silver-dim);
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .hero :global(.rule) {
+    margin-top: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  .hero__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem 1.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero__foot li {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6rem;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--silver-mute);
+  }
+
+  .hero__foot li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    flex: none;
+    border: 1px solid var(--silver-mute);
+    transform: rotate(45deg);
+  }
+
+  .hero__foot li:first-child::before {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .hero__actions {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .hero__actions .btn {
+      width: 100%;
+    }
+  }
+</style>

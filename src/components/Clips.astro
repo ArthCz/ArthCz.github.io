@@ -1,0 +1,350 @@
+---
+/**
+ * Clips — clipes recentes da Twitch + Shorts do YouTube.
+ * Os dados vêm de src/data/feeds.json, gerado por `npm run sync`.
+ * Sem dados salvos, mostra um estado vazio honesto (nada é inventado).
+ */
+import Icon from './Icon.astro';
+import feeds from '../data/feeds.json';
+import { twitch, youtube } from '../data/site.js';
+
+const clips = feeds.clips ?? [];
+const shorts = feeds.shorts ?? [];
+
+const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+
+function timeAgo(iso) {
+  if (!iso) return null;
+  const diff = Date.now() - new Date(iso).getTime();
+  const days = Math.round(diff / 86_400_000);
+  if (days < 1) return 'hoje';
+  if (days < 30) return rtf.format(-days, 'day');
+  const months = Math.round(days / 30);
+  if (months < 12) return rtf.format(-months, 'month');
+  return rtf.format(-Math.round(months / 12), 'year');
+}
+
+const duration = (seconds) => (seconds ? `${seconds}s` : null);
+const views = (count) => (count === 1 ? '1 visualização' : `${count} visualizações`);
+
+const hasClips = clips.length > 0;
+const hasShorts = shorts.length > 0;
+---
+
+<div class="clips">
+  <div class="clips__head">
+    <h3>Clipes e cortes</h3>
+    <p class="lead">
+      O que saiu de mais recente: os clipes do canal na Twitch e os Shorts publicados no YouTube.
+    </p>
+  </div>
+
+  <section class="block">
+    <div class="block__head">
+      <h4 class="block__title">
+        <Icon name="twitch" size={14} /> Clipes recentes da Twitch
+      </h4>
+      <a class="link" href={twitch.clipsUrl} target="_blank" rel="noopener noreferrer">
+        Todos os clipes <Icon name="external" size={12} />
+      </a>
+    </div>
+
+    {
+      hasClips ? (
+        <ul class="clip-grid">
+          {clips.map((clip) => (
+            <li>
+              <a class="clip" href={clip.url} target="_blank" rel="noopener noreferrer">
+                <span class="clip__thumb">
+                  {clip.thumbnail ? (
+                    <img src={clip.thumbnail} alt="" loading="lazy" decoding="async" />
+                  ) : (
+                    <span class="clip__blank" aria-hidden="true" />
+                  )}
+                  <span class="clip__play" aria-hidden="true">
+                    <Icon name="play" size={13} />
+                  </span>
+                  {duration(clip.duration) && <span class="clip__time">{duration(clip.duration)}</span>}
+                </span>
+
+                <span class="clip__title">{clip.title}</span>
+
+                <span class="clip__meta">
+                  {clip.game && <span class="clip__game">{clip.game}</span>}
+                  <span>{views(clip.views)}</span>
+                  {timeAgo(clip.createdAt) && <span>{timeAgo(clip.createdAt)}</span>}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="empty">
+          <div>
+            <strong>Nenhum clipe salvo ainda</strong>
+            <p>
+              Rode <code>npm run sync</code> para buscar os clipes mais recentes do canal. Se nada
+              aparecer, é porque a Twitch não retornou clipes no período.
+            </p>
+          </div>
+          <a class="btn btn--sm" href={twitch.clipsUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="twitch" size={14} /> Ver na Twitch
+          </a>
+        </div>
+      )
+    }
+  </section>
+
+  <section class="block">
+    <div class="block__head">
+      <h4 class="block__title">
+        <Icon name="youtube" size={14} /> Shorts do YouTube
+      </h4>
+      <a class="link" href={youtube.shortsUrl} target="_blank" rel="noopener noreferrer">
+        Todos os Shorts <Icon name="external" size={12} />
+      </a>
+    </div>
+
+    {
+      hasShorts ? (
+        <ul class="short-grid">
+          {shorts.map((short) => (
+            <li>
+              <a class="short" href={short.url} target="_blank" rel="noopener noreferrer">
+                <span class="short__thumb">
+                  <img src={short.thumbnail} alt="" loading="lazy" decoding="async" />
+                  <span class="clip__play" aria-hidden="true">
+                    <Icon name="play" size={12} />
+                  </span>
+                </span>
+                <span class="clip__title">{short.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="empty">
+          <div>
+            <strong>Nenhum Short publicado ainda</strong>
+            <p>
+              Quando sair um Short no canal do YouTube, ele aparece aqui na próxima sincronização
+              (<code>npm run sync</code>).
+            </p>
+          </div>
+          <a class="btn btn--sm" href={youtube.shortsUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="youtube" size={14} /> Ver no YouTube
+          </a>
+        </div>
+      )
+    }
+  </section>
+
+  {
+    feeds.syncedAt && (
+      <p class="clips__stamp">
+        Clipes e Shorts atualizados em{' '}
+        {new Date(feeds.syncedAt).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        })}
+        .
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .clips {
+    margin-top: clamp(2.75rem, 5vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 2.75rem);
+  }
+
+  .clips__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .clips__head h3 {
+    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  }
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .block__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .block__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver-mute);
+  }
+
+  .clip-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .clip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    height: 100%;
+  }
+
+  .clip__thumb {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line-mid);
+    background: #000;
+    overflow: hidden;
+    transition: border-color 0.3s var(--ease);
+  }
+
+  .clip:hover .clip__thumb {
+    border-color: var(--line-strong);
+  }
+
+  .clip__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .clip__blank {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--surface-2);
+  }
+
+  .clip__play {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(236, 232, 225, 0.35);
+    background: rgba(5, 5, 6, 0.72);
+    color: var(--silver);
+  }
+
+  .clip__time {
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    background: rgba(5, 5, 6, 0.78);
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: var(--silver-2);
+  }
+
+  .clip__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--silver);
+  }
+
+  .clip__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.7rem;
+    margin-top: auto;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--silver-mute);
+  }
+
+  .clip__meta > * + *::before {
+    content: '·';
+    margin-right: 0.7rem;
+  }
+
+  .clip__game {
+    color: var(--silver-dim);
+  }
+
+  .short-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    max-width: 780px;
+  }
+
+  .short {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .short__thumb {
+    position: relative;
+    display: block;
+    aspect-ratio: 9 / 16;
+    border: 1px solid var(--line-mid);
+    background: #000;
+    overflow: hidden;
+    transition: border-color 0.3s var(--ease);
+  }
+
+  .short:hover .short__thumb {
+    border-color: var(--line-strong);
+  }
+
+  .short__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .short .clip__title {
+    font-size: 0.92rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .clips__stamp {
+    font-size: 0.72rem;
+    color: var(--silver-mute);
+  }
+
+  .empty code {
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    font-size: 0.85em;
+    color: var(--silver-2);
+  }
+</style>

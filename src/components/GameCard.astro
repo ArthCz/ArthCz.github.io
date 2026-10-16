@@ -1,0 +1,142 @@
+---
+import Icon from './Icon.astro';
+import CharacterSelect from './CharacterSelect.astro';
+
+const { game, roster } = Astro.props;
+---
+
+<article class="game" id={game.slug}>
+  <figure class="game__cover">
+    <img
+      src={game.cover}
+      alt={`Capa de ${game.name}`}
+      width="600"
+      height="900"
+      loading="lazy"
+      decoding="async"
+    />
+    <span class="game__index" aria-hidden="true">{game.index}</span>
+  </figure>
+
+  <div class="game__body">
+    <header>
+      <div class="game__top">
+        <span class="label">{game.meta}</span>
+      </div>
+      <h3 class="game__name">{game.name}</h3>
+      <div class="game__links">
+        {
+          game.links.profile && (
+            <a class="link" href={game.links.profile} target="_blank" rel="noopener noreferrer">
+              Perfil e ranks <Icon name="external" size={12} />
+            </a>
+          )
+        }
+        <a class="link" href={game.links.official} target="_blank" rel="noopener noreferrer">
+          Site oficial <Icon name="external" size={12} />
+        </a>
+      </div>
+    </header>
+
+    <CharacterSelect game={game} roster={roster} />
+  </div>
+</article>
+
+<style>
+  .game {
+    display: grid;
+    gap: 1.75rem;
+    padding: clamp(1.25rem, 2.5vw, 1.85rem);
+    border: 1px solid var(--line-mid);
+    background: var(--surface);
+    scroll-margin-top: calc(var(--nav-h) + 24px);
+    transition: border-color 0.35s var(--ease);
+  }
+
+  .game:hover {
+    border-color: var(--line-strong);
+  }
+
+  .game__cover {
+    position: relative;
+    margin: 0;
+    max-width: 200px;
+    border: 1px solid var(--line);
+    background: #000;
+    overflow: hidden;
+  }
+
+  .game__cover img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+  }
+
+  .game__cover::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, rgba(5, 5, 6, 0.94));
+    pointer-events: none;
+  }
+
+  .game__index {
+    position: absolute;
+    z-index: 1;
+    left: 0.85rem;
+    bottom: 0.65rem;
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--silver);
+  }
+
+  .game__body {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 3vw, 2rem);
+    min-width: 0;
+  }
+
+  .game__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .game__name {
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .game__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 720px) {
+    .game {
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 2.25rem;
+      align-items: start;
+    }
+
+    .game__cover {
+      max-width: none;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .game {
+      grid-template-columns: 232px minmax(0, 1fr);
+      gap: 2.75rem;
+      padding: 2rem;
+    }
+  }
+</style>

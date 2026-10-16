@@ -1,0 +1,22 @@
+{
+  "name": "arthcz-arena",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ArthCz Arena - central oficial de ArthCz na Twitch, no YouTube e no Discord.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "sync": "node scripts/sync-ranks.mjs && node scripts/sync-feeds.mjs",
+    "sync:ranks": "node scripts/sync-ranks.mjs",
+    "sync:feeds": "node scripts/sync-feeds.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.6.1"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}

@@ -1,0 +1,229 @@
+---
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
+import { navLinks, twitch } from '../data/site.js';
+---
+
+<header class="nav" data-nav>
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#inicio" aria-label="ArthCz Arena — voltar ao início">
+      <Brand />
+    </a>
+
+    <nav class="nav__links" aria-label="Navegação principal">
+      {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+
+    <a
+      class="btn btn--primary btn--sm nav__cta"
+      href={twitch.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <Icon name="twitch" size={14} /> Assistir
+    </a>
+
+    <button
+      class="nav__toggle"
+      type="button"
+      data-nav-toggle
+      aria-expanded="false"
+      aria-controls="nav-mobile"
+    >
+      <span class="nav__bars" aria-hidden="true"></span>
+      <span class="sr-only">Abrir menu</span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" data-nav-menu hidden>
+    <nav class="container nav__mobile-inner" aria-label="Navegação principal (móvel)">
+      {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a
+        class="btn btn--primary btn--sm"
+        href={twitch.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="twitch" size={14} /> Assistir na Twitch
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-nav]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const menu = document.querySelector('[data-nav-menu]');
+
+  if (header && toggle && menu) {
+    const label = toggle.querySelector('.sr-only');
+
+    const setOpen = (open) => {
+      header.dataset.open = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      if (label) label.textContent = open ? 'Fechar menu' : 'Abrir menu';
+      menu.hidden = !open;
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(header.dataset.open !== 'true');
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  }
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid var(--line);
+    background: rgba(5, 5, 6, 0.86);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    height: var(--nav-h);
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    margin-right: auto;
+  }
+
+  .nav__links {
+    display: none;
+    gap: 0.35rem;
+  }
+
+  .nav__links a {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--silver-mute);
+    transition: color 0.25s var(--ease);
+  }
+
+  .nav__links a:hover {
+    color: var(--silver);
+  }
+
+  .nav__cta {
+    display: none;
+  }
+
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-mid);
+    cursor: pointer;
+    transition: border-color 0.25s var(--ease);
+  }
+
+  .nav__toggle:hover {
+    border-color: var(--line-strong);
+  }
+
+  .nav__bars,
+  .nav__bars::before,
+  .nav__bars::after {
+    display: block;
+    width: 16px;
+    height: 1px;
+    background: var(--silver);
+    transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+  }
+
+  .nav__bars::before,
+  .nav__bars::after {
+    content: '';
+    position: relative;
+  }
+
+  .nav__bars::before {
+    top: -5px;
+  }
+
+  .nav__bars::after {
+    top: 4px;
+  }
+
+  .nav[data-open='true'] .nav__bars {
+    background: transparent;
+  }
+
+  .nav[data-open='true'] .nav__bars::before {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .nav[data-open='true'] .nav__bars::after {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .nav__mobile {
+    border-top: 1px solid var(--line);
+    background: var(--ink-2);
+  }
+
+  .nav__mobile[hidden] {
+    display: none;
+  }
+
+  .nav__mobile-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-block: 0.75rem 1.5rem;
+  }
+
+  .nav__mobile-inner > a:not(.btn) {
+    padding: 0.9rem 0.15rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--silver-2);
+  }
+
+  .nav__mobile-inner > a:not(.btn):hover {
+    color: var(--silver);
+  }
+
+  .nav__mobile-inner > .btn {
+    margin-top: 1.15rem;
+  }
+
+  @media (min-width: 900px) {
+    .nav__links {
+      display: flex;
+    }
+
+    .nav__cta {
+      display: inline-flex;
+    }
+
+    .nav__toggle {
+      display: none;
+    }
+
+    .nav__mobile {
+      display: none;
+    }
+  }
+</style>

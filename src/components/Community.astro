@@ -1,0 +1,230 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Icon from './Icon.astro';
+import { community, twitch, discord, socials } from '../data/site.js';
+
+const parentParams = twitch.parents.map((parent) => `parent=${encodeURIComponent(parent)}`).join('&');
+const chatSrc = `https://www.twitch.tv/embed/${twitch.channel}/chat?${parentParams}&darkpopout`;
+
+// Twitch e Discord já têm destaque próprio nesta seção.
+const channels = socials.filter(
+  (item) => item.enabled && !['Twitch', 'Discord'].includes(item.label),
+);
+---
+
+<section class="section" id="comunidade">
+  <div class="container">
+    <SectionHeader
+      eyebrow={community.eyebrow}
+      title={community.title}
+      lead={community.lead}
+    />
+
+    <div class="discord">
+      <span class="discord__mark" aria-hidden="true">
+        <Icon name="discord" size={26} />
+      </span>
+      <div class="discord__text">
+        <h3>{discord.title}</h3>
+        <p>{discord.text}</p>
+      </div>
+      <a class="btn btn--primary" href={discord.url} target="_blank" rel="noopener noreferrer">
+        <Icon name="discord" size={15} /> {discord.cta}
+      </a>
+    </div>
+
+    <div class="community">
+      <div>
+        <h3 class="community__sub">Na próxima atualização</h3>
+
+        <ul class="roadmap">
+          {
+            community.roadmap.map((item) => (
+              <li class="roadmap__item">
+                <h4>{item.title}</h4>
+                <span class="chip">
+                  <Icon name="clock" size={11} /> {item.status}
+                </span>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="community__now">
+          <h3 class="community__sub">Já funcionando agora</h3>
+          <div class="community__links">
+            <a
+              class="btn btn--sm"
+              href={twitch.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name="twitch" size={14} /> Seguir na Twitch
+            </a>
+            <a
+              class="btn btn--sm"
+              href={twitch.chatUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir o chat
+            </a>
+            {
+              channels.map((channel) => (
+                <a class="btn btn--sm" href={channel.url} target="_blank" rel="noopener noreferrer">
+                  {channel.label}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="panel__head">
+          <span class="panel__title">
+            <Icon name="twitch" size={14} /> <span class="label">Chat da Twitch</span>
+          </span>
+          <a class="link" href={twitch.chatUrl} target="_blank" rel="noopener noreferrer">
+            Abrir <Icon name="external" size={12} />
+          </a>
+        </div>
+
+        <div class="panel__body">
+          <div class="frame frame--tall">
+            {
+              twitch.chatEmbed ? (
+                <iframe
+                  src={chatSrc}
+                  title={`Chat da Twitch do canal ${twitch.channel}`}
+                  loading="lazy"
+                />
+              ) : (
+                <div class="frame-fallback">
+                  <p>O embed do chat está desativado nas configurações.</p>
+                  <a
+                    class="btn btn--primary btn--sm"
+                    href={twitch.chatUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Abrir o chat
+                  </a>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .discord {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 1.75rem;
+    padding: clamp(1.35rem, 3vw, 1.9rem);
+    border: 1px solid var(--line-mid);
+    background:
+      radial-gradient(560px 220px at 12% 0%, rgba(200, 16, 46, 0.14), transparent 70%),
+      var(--surface);
+  }
+
+  .discord__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    flex: none;
+    border: 1px solid var(--line-mid);
+    color: var(--silver);
+  }
+
+  .discord__text {
+    flex: 1 1 260px;
+  }
+
+  .discord__text h3 {
+    font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+    margin-bottom: 0.35rem;
+  }
+
+  .discord__text p {
+    max-width: 62ch;
+    color: var(--silver-dim);
+    font-size: 0.9rem;
+  }
+
+  .community {
+    display: grid;
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .community__sub {
+    font-family: var(--font-body);
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--silver-mute);
+    margin-bottom: 1.1rem;
+  }
+
+  .roadmap {
+    display: grid;
+    gap: 1px;
+    border: 1px solid var(--line-mid);
+    background: var(--line);
+  }
+
+  .roadmap__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.35rem 1.5rem;
+    background: var(--surface);
+  }
+
+  .roadmap__item h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .roadmap__item p {
+    font-size: 0.87rem;
+    color: var(--silver-dim);
+    max-width: 44ch;
+  }
+
+  .community__now {
+    margin-top: 2.25rem;
+  }
+
+  .community__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  @media (min-width: 700px) {
+    .roadmap {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .community {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.85fr);
+      gap: 2rem;
+    }
+  }
+</style>

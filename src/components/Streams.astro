@@ -1,0 +1,132 @@
+---
+import Icon from './Icon.astro';
+import Clips from './Clips.astro';
+import { twitch, youtube } from '../data/site.js';
+
+const parentParams = twitch.parents.map((parent) => `parent=${encodeURIComponent(parent)}`).join('&');
+const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentParams}`;
+---
+
+<section class="section section--alt" id="transmissoes">
+  <div class="container">
+    <h2 class="sr-only">Transmissões e vídeos</h2>
+
+    <div class="streams">
+      <div class="panel">
+        <div class="panel__head">
+          <span class="panel__title">
+            <Icon name="twitch" size={14} /> <span class="label">Twitch · {twitch.label}</span>
+          </span>
+          <a class="link" href={twitch.url} target="_blank" rel="noopener noreferrer">
+            Abrir canal <Icon name="external" size={12} />
+          </a>
+        </div>
+
+        <div class="panel__body">
+          <div class="frame">
+            {
+              twitch.playerEmbed ? (
+                <iframe
+                  src={playerSrc}
+                  title={`Player da Twitch do canal ${twitch.channel}`}
+                  allowfullscreen
+                  loading="lazy"
+                />
+              ) : (
+                <div class="frame-fallback">
+                  <p>O embed do player está desativado nas configurações.</p>
+                  <a
+                    class="btn btn--primary btn--sm"
+                    href={twitch.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon name="twitch" size={14} /> Assistir na Twitch
+                  </a>
+                </div>
+              )
+            }
+          </div>
+        </div>
+
+        <p class="panel__note">
+          O status de transmissão é sempre o oficial da Twitch — nada aqui indica ao vivo sem
+          confirmação do próprio player.
+        </p>
+      </div>
+
+      <aside class="panel">
+        <div class="panel__head">
+          <span class="panel__title">
+            <Icon name="youtube" size={14} />
+            <span class="label">YouTube · {youtube.handle}</span>
+          </span>
+        </div>
+
+        <div class="panel__body panel__body--stack">
+          <p class="yt__text">
+            É onde ficam as lives completas, os melhores momentos e os Shorts, assim que são
+            publicados.
+          </p>
+
+          <ul class="yt__list">
+            <li><Icon name="check" size={13} /> Lives completas das sessões</li>
+            <li><Icon name="check" size={13} /> Shorts e cortes das lives</li>
+            <li><Icon name="check" size={13} /> Conteúdo de fighting games</li>
+          </ul>
+
+          <a class="btn" href={youtube.url} target="_blank" rel="noopener noreferrer">
+            <Icon name="youtube" size={14} /> Abrir canal
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <Clips />
+  </div>
+</section>
+
+<style>
+  .streams {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .panel__body--stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    align-items: flex-start;
+  }
+
+  .yt__text {
+    color: var(--silver-dim);
+    font-size: 0.92rem;
+  }
+
+  .yt__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    color: var(--silver-dim);
+    font-size: 0.88rem;
+  }
+
+  .yt__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .yt__list svg {
+    flex: none;
+    color: var(--crimson-2);
+  }
+
+  @media (min-width: 1000px) {
+    .streams {
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+</style>

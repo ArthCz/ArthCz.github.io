@@ -1,0 +1,29 @@
+---
+/**
+ * Ornament — os quatro cantos ornamentais que acompanham .frame-ornate.
+ * Renderiza quatro <span> como filhos diretos da moldura, sem wrapper.
+ */
+const { size = 26 } = Astro.props;
+const corner = 'M0 20 V0 H20 M4 24 V4 H24 M8 28 V8 H28';
+---
+
+<span class="ornament__c ornament__c--tl" aria-hidden="true">
+  <svg viewBox="0 0 29 29" width={size} height={size} fill="none" stroke="currentColor" stroke-width="1">
+    <path d={corner}></path>
+  </svg>
+</span>
+<span class="ornament__c ornament__c--tr" aria-hidden="true">
+  <svg viewBox="0 0 29 29" width={size} height={size} fill="none" stroke="currentColor" stroke-width="1">
+    <path d={corner}></path>
+  </svg>
+</span>
+<span class="ornament__c ornament__c--br" aria-hidden="true">
+  <svg viewBox="0 0 29 29" width={size} height={size} fill="none" stroke="currentColor" stroke-width="1">
+    <path d={corner}></path>
+  </svg>
+</span>
+<span class="ornament__c ornament__c--bl" aria-hidden="true">
+  <svg viewBox="0 0 29 29" width={size} height={size} fill="none" stroke="currentColor" stroke-width="1">
+    <path d={corner}></path>
+  </svg>
+</span>

@@ -1,0 +1,2 @@
+# O .cmd so serve no Windows: garante CRLF em qualquer clone
+*.cmd text eol=crlf

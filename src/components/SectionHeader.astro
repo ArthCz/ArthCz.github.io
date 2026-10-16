@@ -1,0 +1,37 @@
+---
+/**
+ * SectionHeader — cabeçalho padrão das seções: kicker, título em serifada
+ * e texto de apoio, separados por uma régua ornamental.
+ */
+import Rule from './Rule.astro';
+
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<header class="section-head">
+  {eyebrow && <p class="kicker kicker--accent">{eyebrow}</p>}
+  <h2 class="section-head__title">{title}</h2>
+  {lead && <p class="lead section-head__lead">{lead}</p>}
+  <Rule />
+</header>
+
+<style>
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    margin-bottom: clamp(2.25rem, 4.5vw, 3.5rem);
+  }
+
+  .section-head__title {
+    max-width: 22ch;
+  }
+
+  .section-head__lead {
+    max-width: 58ch;
+  }
+
+  .section-head :global(.rule) {
+    margin-top: 0.75rem;
+  }
+</style>

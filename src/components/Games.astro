@@ -1,0 +1,51 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import GameCard from './GameCard.astro';
+import { gamesWithRoster, ranksSyncedAt } from '../data/roster.js';
+
+const atualizadoEm = ranksSyncedAt
+  ? new Date(ranksSyncedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  : null;
+---
+
+<section class="section" id="fighting-games">
+  <div class="container">
+    <SectionHeader
+      eyebrow="Fighting games"
+      title="Onde a arena acontece"
+      lead="Escolha um personagem e veja o rank de cada um, como numa tela de seleção. Os números vêm dos perfis públicos — nada aqui é estimado."
+    />
+
+    <div class="games">
+      {gamesWithRoster.map(({ game, roster }) => <GameCard game={game} roster={roster} />)}
+    </div>
+
+    {
+      atualizadoEm && (
+        <p class="games__note">
+          Ranks lidos dos perfis públicos em {atualizadoEm}. O comando <code>npm run sync</code> atualiza tudo.
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .games {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .games__note {
+    margin-top: 1.25rem;
+    font-size: 0.72rem;
+    color: var(--silver-mute);
+  }
+
+  .games__note code {
+    font-family: var(--font-body);
+    font-size: 0.95em;
+    letter-spacing: 0.02em;
+    color: var(--silver-2);
+  }
+</style>

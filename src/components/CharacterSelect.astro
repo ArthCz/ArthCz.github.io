@@ -1,0 +1,394 @@
+---
+/**
+ * CharacterSelect — menu de seleção de personagens no estilo das telas de
+ * seleção dos fighting games: um palco com o personagem escolhido (retrato,
+ * rank e pontuação) e uma grade de retratos clicáveis.
+ *
+ * Usa o padrão ARIA de abas: funciona por teclado e mostra o personagem
+ * principal mesmo sem JavaScript.
+ */
+const { game, roster = [] } = Astro.props;
+
+const uid = `sel-${game.slug}`;
+const startIndex = Math.max(
+  0,
+  roster.findIndex((item) => item.main),
+);
+
+const pct = (value) =>
+  value == null ? null : `${value.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
+---
+
+<div class="select" data-select>
+  <div>
+    {
+      roster.map((char, index) => {
+        const rankImage = char.rankImage;
+        return (
+          <div
+            class="select__panel"
+            id={`${uid}-panel-${index}`}
+            role="tabpanel"
+            aria-labelledby={`${uid}-tab-${index}`}
+            tabindex="0"
+            data-panel={index}
+            hidden={index !== startIndex}
+          >
+            <figure class="select__portrait">
+              {char.image ? (
+                <img src={char.image} alt={`Retrato de ${char.name}`} loading="lazy" decoding="async" />
+              ) : (
+                <span class="select__initial" aria-hidden="true">
+                  {char.name.slice(0, 1)}
+                </span>
+              )}
+            </figure>
+
+            <div class="select__data">
+              <div class="select__heading">
+                <h4 class="select__name">{char.name}</h4>
+                {char.main && <span class="chip chip--accent">Principal</span>}
+              </div>
+
+              <dl class="stats">
+                <div class="stats__row">
+                  <dt>Rank</dt>
+                  <dd class="stats__rank">
+                    {rankImage ? (
+                      <img
+                        class="stats__badge"
+                        src={rankImage}
+                        alt={`Rank ${char.rank}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      char.rank ?? 'Sem rank'
+                    )}
+                  </dd>
+                </div>
+                {char.score && (
+                  <div class="stats__row">
+                    <dt>Pontuação</dt>
+                    <dd>{char.score}</dd>
+                  </div>
+                )}
+                {char.rating && (
+                  <div class="stats__row">
+                    <dt>Rating</dt>
+                    <dd>{char.rating}</dd>
+                  </div>
+                )}
+                {char.games > 0 && (
+                  <div class="stats__row">
+                    <dt>Partidas</dt>
+                    <dd>{char.games.toLocaleString('pt-BR')}</dd>
+                  </div>
+                )}
+                {pct(char.rate) && (
+                  <div class="stats__row">
+                    <dt>Aproveitamento</dt>
+                    <dd>{pct(char.rate)}</dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  {
+    roster.length > 1 && (
+      <div class="select__grid" role="tablist" aria-label={`Selecionar personagem de ${game.name}`}>
+        {roster.map((char, index) => (
+          <button
+            class="select__tab"
+            type="button"
+            role="tab"
+            id={`${uid}-tab-${index}`}
+            aria-controls={`${uid}-panel-${index}`}
+            aria-selected={index === startIndex ? 'true' : 'false'}
+            tabindex={index === startIndex ? 0 : -1}
+            data-tab={index}
+          >
+            <span class="select__thumb">
+              {char.image ? (
+                <img src={char.image} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <span class="select__initial" aria-hidden="true">
+                  {char.name.slice(0, 1)}
+                </span>
+              )}
+            </span>
+            <span class="select__label">{char.name}</span>
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  <p class="select__hint">
+    {
+      roster.length > 1
+        ? 'Escolha um personagem para ver o rank.'
+        : roster.length === 1
+          ? 'Personagem com rank registrado no perfil.'
+          : 'Ranks ainda não sincronizados — rode npm run sync.'
+    }
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll('[data-select]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
+    if (!tabs.length || tabs.length !== panels.length) return;
+
+    const activate = (index, moveFocus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+      });
+      if (moveFocus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => activate(i));
+      tab.addEventListener('keydown', (event) => {
+        let next = null;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (i + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (i - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        if (next === null) return;
+        event.preventDefault();
+        activate(next, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .select {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    /* O palco só vira duas colunas quando há largura de verdade para isso. */
+    container-type: inline-size;
+  }
+
+  .select__panel {
+    display: grid;
+    gap: 1.5rem;
+    outline: none;
+  }
+
+  .select__portrait {
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    max-width: 340px;
+    min-height: 200px;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(120% 70% at 50% 100%, rgba(200, 16, 46, 0.12), transparent 70%),
+      var(--surface-2);
+  }
+
+  .select__portrait img {
+    max-height: 260px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* Reserva para quando um personagem ainda não tem retrato baixado. */
+  .select__initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 140px;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: var(--silver-mute);
+    border: 1px dashed var(--line-strong);
+  }
+
+  .select__thumb .select__initial {
+    min-height: 0;
+    font-size: 1.05rem;
+    border: none;
+  }
+
+  .select__data {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    justify-content: center;
+  }
+
+  .select__heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .select__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .stats {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .stats__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stats__row dt {
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver-mute);
+  }
+
+  .stats__row dd {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--silver-2);
+    text-align: right;
+  }
+
+  .stats__rank {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+    font-family: var(--font-display);
+    font-size: 1.35rem !important;
+    font-weight: 600;
+    color: var(--silver) !important;
+    line-height: 1.1;
+  }
+
+  /* Imagem oficial do rank (wordmark do jogo) no lugar do texto. */
+  .stats__badge {
+    display: block;
+    width: 168px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .select__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .select__tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.35rem;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--silver-mute);
+    cursor: pointer;
+    transition:
+      border-color 0.25s var(--ease),
+      background-color 0.25s var(--ease),
+      color 0.25s var(--ease);
+  }
+
+  .select__tab:hover {
+    border-color: var(--line-strong);
+    color: var(--silver-2);
+  }
+
+  .select__tab[aria-selected='true'] {
+    border-color: var(--crimson);
+    background: var(--surface-3);
+    color: var(--silver);
+  }
+
+  .select__thumb {
+    display: block;
+    width: 100%;
+    height: 54px;
+  }
+
+  .select__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0.78);
+    transition: filter 0.25s var(--ease);
+  }
+
+  .select__tab:hover .select__thumb img {
+    filter: grayscale(0.5) brightness(0.92);
+  }
+
+  .select__tab[aria-selected='true'] .select__thumb img {
+    filter: none;
+  }
+
+  .select__label {
+    font-size: 0.58rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .select__hint {
+    font-size: 0.72rem;
+    color: var(--silver-mute);
+  }
+
+  @container (min-width: 460px) {
+    .select__panel {
+      grid-template-columns: minmax(170px, 232px) minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .select__portrait {
+      margin: 0;
+      max-width: none;
+      min-height: 240px;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .select__grid {
+      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    }
+  }
+</style>
