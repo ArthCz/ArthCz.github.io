@@ -81,11 +81,8 @@ const hasShorts = shorts.length > 0;
       ) : (
         <div class="empty">
           <div>
-            <strong>Nenhum clipe salvo ainda</strong>
-            <p>
-              Rode <code>npm run sync</code> para buscar os clipes mais recentes do canal. Se nada
-              aparecer, é porque a Twitch não retornou clipes no período.
-            </p>
+            <strong>Ainda não há clipes</strong>
+            <p>Quando um clipe novo for salvo no canal, ele aparece aqui.</p>
           </div>
           <a class="btn btn--sm" href={twitch.clipsUrl} target="_blank" rel="noopener noreferrer">
             <Icon name="twitch" size={14} /> Ver na Twitch
@@ -125,11 +122,8 @@ const hasShorts = shorts.length > 0;
       ) : (
         <div class="empty">
           <div>
-            <strong>Nenhum Short publicado ainda</strong>
-            <p>
-              Quando sair um Short no canal do YouTube, ele aparece aqui na próxima sincronização
-              (<code>npm run sync</code>).
-            </p>
+            <strong>Ainda não há Shorts</strong>
+            <p>Quando sair um Short no canal do YouTube, ele aparece aqui.</p>
           </div>
           <a class="btn btn--sm" href={youtube.shortsUrl} target="_blank" rel="noopener noreferrer">
             <Icon name="youtube" size={14} /> Ver no YouTube
@@ -139,19 +133,6 @@ const hasShorts = shorts.length > 0;
     }
   </section>
 
-  {
-    feeds.syncedAt && (
-      <p class="clips__stamp">
-        Clipes e Shorts atualizados em{' '}
-        {new Date(feeds.syncedAt).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-        })}
-        .
-      </p>
-    )
-  }
 </div>
 
 <style>
@@ -334,17 +315,4 @@ const hasShorts = shorts.length > 0;
     overflow: hidden;
   }
 
-  .clips__stamp {
-    font-size: 0.72rem;
-    color: var(--silver-mute);
-  }
-
-  .empty code {
-    padding: 0.1rem 0.4rem;
-    border: 1px solid var(--line);
-    background: var(--surface-2);
-    font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
-    font-size: 0.85em;
-    color: var(--silver-2);
-  }
 </style>

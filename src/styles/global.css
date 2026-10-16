@@ -476,13 +476,6 @@ p {
   padding: clamp(1rem, 2vw, 1.3rem);
 }
 
-.panel__note {
-  padding: 0 1.25rem 1.2rem;
-  color: var(--silver-mute);
-  font-size: 0.8rem;
-  max-width: 74ch;
-}
-
 /* 15. Caixa de estado vazio ------------------------------------------------- */
 .empty {
   display: flex;

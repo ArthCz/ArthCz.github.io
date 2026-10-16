@@ -35,49 +35,21 @@ const channels = socials.filter(
 
     <div class="community">
       <div>
-        <h3 class="community__sub">Na próxima atualização</h3>
-
-        <ul class="roadmap">
+        <h3 class="community__sub">Onde me encontrar</h3>
+        <div class="community__links">
+          <a class="btn btn--sm" href={twitch.url} target="_blank" rel="noopener noreferrer">
+            <Icon name="twitch" size={14} /> Seguir na Twitch
+          </a>
+          <a class="btn btn--sm" href={twitch.chatUrl} target="_blank" rel="noopener noreferrer">
+            Abrir o chat
+          </a>
           {
-            community.roadmap.map((item) => (
-              <li class="roadmap__item">
-                <h4>{item.title}</h4>
-                <span class="chip">
-                  <Icon name="clock" size={11} /> {item.status}
-                </span>
-                <p>{item.text}</p>
-              </li>
+            channels.map((channel) => (
+              <a class="btn btn--sm" href={channel.url} target="_blank" rel="noopener noreferrer">
+                {channel.label}
+              </a>
             ))
           }
-        </ul>
-
-        <div class="community__now">
-          <h3 class="community__sub">Já funcionando agora</h3>
-          <div class="community__links">
-            <a
-              class="btn btn--sm"
-              href={twitch.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon name="twitch" size={14} /> Seguir na Twitch
-            </a>
-            <a
-              class="btn btn--sm"
-              href={twitch.chatUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Abrir o chat
-            </a>
-            {
-              channels.map((channel) => (
-                <a class="btn btn--sm" href={channel.url} target="_blank" rel="noopener noreferrer">
-                  {channel.label}
-                </a>
-              ))
-            }
-          </div>
         </div>
       </div>
 
@@ -178,47 +150,10 @@ const channels = socials.filter(
     margin-bottom: 1.1rem;
   }
 
-  .roadmap {
-    display: grid;
-    gap: 1px;
-    border: 1px solid var(--line-mid);
-    background: var(--line);
-  }
-
-  .roadmap__item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1.35rem 1.5rem;
-    background: var(--surface);
-  }
-
-  .roadmap__item h4 {
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-
-  .roadmap__item p {
-    font-size: 0.87rem;
-    color: var(--silver-dim);
-    max-width: 44ch;
-  }
-
-  .community__now {
-    margin-top: 2.25rem;
-  }
-
   .community__links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.65rem;
-  }
-
-  @media (min-width: 700px) {
-    .roadmap {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 
   @media (min-width: 1000px) {

@@ -140,37 +140,13 @@ export const games = [
 export const community = {
   eyebrow: 'Comunidade',
   title: 'A arena também é do chat',
-  lead:
-    'A parte interativa do ArthCz Arena está sendo construída. Nesta primeira versão vai ao ar apenas o que funciona de verdade; o resto entra em cena nas próximas atualizações.',
-  roadmap: [
-    {
-      title: 'Quiz interativo',
-      text: 'Perguntas de fighting games para responder junto com a live.',
-      status: 'Em preparação',
-    },
-    {
-      title: 'Votações na live',
-      text: 'O chat escolhe personagem, desafio ou o próximo confronto.',
-      status: 'Em preparação',
-    },
-    {
-      title: 'Atividades do chat',
-      text: 'Brincadeiras e desafios que rodam durante a transmissão.',
-      status: 'Em preparação',
-    },
-    {
-      title: 'Bot da Twitch',
-      text: 'Base para comandos, moderação e integrações da comunidade.',
-      status: 'Em preparação',
-    },
-  ],
+  lead: 'Entre no servidor do Discord, converse no chat da Twitch e acompanhe os canais da arena.',
 };
 
 export const socials = [
   { label: 'Twitch', handle: 'arthcz', url: twitch.url, enabled: true },
   { label: 'YouTube', handle: youtube.handle, url: youtube.url, enabled: true },
   { label: 'Discord', handle: discord.handle, url: discord.url, enabled: true },
-  // Quando esses canais existirem, preencha a url e mude enabled para true.
-  { label: 'X / Twitter', handle: 'a configurar', url: '', enabled: false },
-  { label: 'Instagram', handle: 'a configurar', url: '', enabled: false },
+  { label: 'X / Twitter', handle: '@arthcz', url: 'https://x.com/arthcz', enabled: true },
+  { label: 'Instagram', handle: '@arthcalazans', url: 'https://www.instagram.com/arthcalazans', enabled: true },
 ];
