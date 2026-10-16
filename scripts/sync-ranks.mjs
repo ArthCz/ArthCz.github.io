@@ -312,7 +312,9 @@ async function syncTekken(profileUrl) {
 // ---------------------------------------------------------------------------
 const previous = readExisting();
 const ranks = {
-  syncedAt: new Date().toISOString(),
+  // A data só avança quando a leitura dá certo (veja o fim do arquivo): assim
+  // o site nunca diz "lido hoje" mostrando dados antigos.
+  syncedAt: previous.syncedAt ?? null,
   games: { ...(previous.games ?? {}) },
 };
 const problems = [];
@@ -345,6 +347,9 @@ try {
 } catch (error) {
   problems.push(error.message);
 }
+
+// A data exibida no site só avança se a leitura dos perfis deu certo.
+if (!problems.length) ranks.syncedAt = new Date().toISOString();
 
 writeFileSync(RANKS, `${JSON.stringify(ranks, null, 2)}\n`, 'utf8');
 console.log('\nGravado em src/data/ranks.json');

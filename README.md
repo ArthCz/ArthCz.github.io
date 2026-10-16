@@ -24,6 +24,10 @@ Não há framework de UI, biblioteca de animação ou CSS utilitário.
 
 ```
 F:\Projetos\Site
+├─ .github\
+│  └─ workflows\
+│     └─ publicar.yml           ★ publica o site e relê os perfis todo dia
+├─ .gitattributes              mantém o .cmd com fim de linha do Windows
 ├─ Abrir o site.cmd            ★ duplo clique: sobe o servidor e abre o navegador
 ├─ astro.config.mjs            configuração do Astro
 ├─ package.json                scripts e dependências
@@ -262,24 +266,43 @@ No topo de `src/data/site.js`: objetos `site`, `twitch` e `youtube`.
 
 ---
 
-## ⚠️ Antes de publicar o site
+## 🌐 Site publicado
 
-Duas coisas dependem do domínio final:
+No ar em **https://arthcz.github.io** — GitHub Pages, gratuito, sem cartão e sem
+mensalidade.
 
-1. **`site.url`** em `src/data/site.js` — coloque o domínio (ex.:
-   `https://arthcz.com.br`). Ele é usado no `<link rel="canonical">`.
-2. **`twitch.parents`** — a Twitch exige que o player e o chat informem em quais
-   domínios podem ser exibidos. Adicione o domínio do site à lista:
+O arquivo `.github/workflows/publicar.yml` cuida de tudo:
+
+- a cada envio para a `main`, gera o site e publica;
+- **todo dia às 06:00** (horário de Brasília) relê ranks, pontuações, retratos,
+  emblemas e clipes dos perfis públicos e republica — ninguém precisa fazer nada;
+- também dá para disparar na mão pela aba **Actions** do repositório.
+
+Se alguma dessas fontes estiver fora do ar na hora, o script mantém os dados
+anteriores e **a data mostrada no site não avança** — o site nunca diz "lido
+hoje" exibindo número velho.
+
+O endereço `arthcz.github.io` exige que o repositório se chame
+`ArthCz.github.io`: é isso que faz o site ocupar a raiz do endereço, sem
+subpasta (e por isso nenhum caminho interno precisa de ajuste).
+
+### Se um dia você tiver um domínio próprio
+
+Três lugares apontam para o endereço atual:
+
+1. **`site`** em `astro.config.mjs`;
+2. **`site.url`** em `src/data/site.js` — usado no `<link rel="canonical">`;
+3. **`twitch.parents`** — a Twitch exige que o player e o chat informem em quais
+   domínios podem ser exibidos:
 
 ```js
-parents: ['localhost', '127.0.0.1', 'arthcz.com.br'],
+parents: ['arthcz.github.io', 'localhost', '127.0.0.1'],
 ```
 
-Sem isso, o player e o chat funcionam no seu computador mas ficam bloqueados no
-site publicado.
+Sem o domínio nessa lista, o player e o chat funcionam no seu computador mas
+ficam bloqueados no site publicado. Também é possível desligar os embeds sem
+mexer no layout: `twitch.playerEmbed` e `twitch.chatEmbed`.
 
-Também é possível desligar os embeds sem mexer no layout:
-`twitch.playerEmbed` e `twitch.chatEmbed`.
 
 ---
 

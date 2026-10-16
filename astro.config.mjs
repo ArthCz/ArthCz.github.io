@@ -2,6 +2,10 @@ import { defineConfig } from 'astro/config';
 
 // Site 100% estático. Nao existe backend, banco de dados ou login.
 export default defineConfig({
+  // Endereco publico (GitHub Pages). Para o site ocupar a raiz do dominio, o
+  // repositorio tem que se chamar "ArthCz.github.io" - por isso nao existe
+  // subpasta e nenhum caminho interno precisa de ajuste.
+  site: 'https://arthcz.github.io',
   server: {
     host: true,
     port: 4321,

@@ -158,7 +158,7 @@ async function fetchYouTubeShorts(handle) {
 // Execução
 // ---------------------------------------------------------------------------
 const previous = readExisting();
-const feeds = { syncedAt: new Date().toISOString(), clips: previous.clips ?? [], shorts: previous.shorts ?? [] };
+const feeds = { syncedAt: previous.syncedAt ?? null, clips: previous.clips ?? [], shorts: previous.shorts ?? [] };
 const problems = [];
 
 try {
@@ -193,6 +193,9 @@ try {
 } catch (error) {
   problems.push(error.message);
 }
+
+// A data exibida no site só avança se a leitura das fontes deu certo.
+if (!problems.length) feeds.syncedAt = new Date().toISOString();
 
 writeFileSync(FEEDS, `${JSON.stringify(feeds, null, 2)}\n`, 'utf8');
 console.log('\nGravado em src/data/feeds.json');

@@ -24,8 +24,8 @@ export const site = {
   tagline: 'Central oficial de ArthCz na Twitch, no YouTube e no Discord.',
   description:
     'ArthCz Arena é a central oficial das lives de ArthCz na Twitch, no YouTube e no Discord: fighting games, clipes recentes e a comunidade da arena.',
-  // Preencha com o domínio final quando publicar (usado em <link rel="canonical">).
-  url: '',
+  // Endereço público do site (usado em <link rel="canonical">).
+  url: 'https://arthcz.github.io',
 };
 
 export const navLinks = [
@@ -42,8 +42,9 @@ export const twitch = {
   clipsUrl: 'https://www.twitch.tv/arthcz/clips',
   chatUrl: 'https://www.twitch.tv/arthcz/chat?popout=',
   // Domínios autorizados a exibir o player e o chat da Twitch (a própria
-  // Twitch exige o parâmetro `parent`). Ao publicar, acrescente o seu domínio.
-  parents: ['localhost', '127.0.0.1'],
+  // Twitch exige o parâmetro `parent`). O primeiro é o site publicado; os
+  // outros dois servem para testar na sua máquina.
+  parents: ['arthcz.github.io', 'localhost', '127.0.0.1'],
   playerEmbed: true,
   chatEmbed: true,
 };
