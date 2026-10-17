@@ -3,9 +3,6 @@ import SectionHeader from './SectionHeader.astro';
 import Icon from './Icon.astro';
 import { community, twitch, discord, socials } from '../data/site.js';
 
-const parentParams = twitch.parents.map((parent) => `parent=${encodeURIComponent(parent)}`).join('&');
-const chatSrc = `https://www.twitch.tv/embed/${twitch.channel}/chat?${parentParams}&darkpopout`;
-
 // Twitch e Discord já têm destaque próprio nesta seção.
 const channels = socials.filter(
   (item) => item.enabled && !['Twitch', 'Discord'].includes(item.label),
@@ -34,61 +31,23 @@ const channels = socials.filter(
     </div>
 
     <div class="community" data-reveal>
-      <div>
-        <h3 class="community__sub">Onde me encontrar</h3>
-        <div class="community__links">
-          <a class="btn btn--sm" href={twitch.url} target="_blank" rel="noopener noreferrer">
-            <Icon name="twitch" size={14} /> Seguir na Twitch
-          </a>
-          <a class="btn btn--sm" href={twitch.chatUrl} target="_blank" rel="noopener noreferrer">
-            Abrir o chat
-          </a>
-          {
-            channels.map((channel) => (
-              <a class="btn btn--sm" href={channel.url} target="_blank" rel="noopener noreferrer">
-                {channel.label}
-              </a>
-            ))
-          }
-        </div>
+      <h3 class="community__sub">Onde me encontrar</h3>
+
+      <div class="community__links">
+        <a class="btn btn--sm" href={twitch.url} target="_blank" rel="noopener noreferrer">
+          <Icon name="twitch" size={14} /> Seguir na Twitch
+        </a>
+        <a class="btn btn--sm" href={twitch.chatUrl} target="_blank" rel="noopener noreferrer">
+          Abrir o chat
+        </a>
+        {
+          channels.map((channel) => (
+            <a class="btn btn--sm" href={channel.url} target="_blank" rel="noopener noreferrer">
+              {channel.label}
+            </a>
+          ))
+        }
       </div>
-
-      <aside class="panel">
-        <div class="panel__head">
-          <span class="panel__title">
-            <Icon name="twitch" size={14} /> <span class="label">Chat da Twitch</span>
-          </span>
-          <a class="link" href={twitch.chatUrl} target="_blank" rel="noopener noreferrer">
-            Abrir <Icon name="external" size={12} />
-          </a>
-        </div>
-
-        <div class="panel__body">
-          <div class="frame frame--tall">
-            {
-              twitch.chatEmbed ? (
-                <iframe
-                  src={chatSrc}
-                  title={`Chat da Twitch do canal ${twitch.channel}`}
-                  loading="lazy"
-                />
-              ) : (
-                <div class="frame-fallback">
-                  <p>O embed do chat está desativado nas configurações.</p>
-                  <a
-                    class="btn btn--primary btn--sm"
-                    href={twitch.chatUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Abrir o chat
-                  </a>
-                </div>
-              )
-            }
-          </div>
-        </div>
-      </aside>
     </div>
   </div>
 </section>
@@ -134,9 +93,6 @@ const channels = socials.filter(
   }
 
   .community {
-    display: grid;
-    gap: 1.5rem;
-    align-items: start;
     margin-top: clamp(2.5rem, 5vw, 3.5rem);
   }
 
@@ -154,12 +110,5 @@ const channels = socials.filter(
     display: flex;
     flex-wrap: wrap;
     gap: 0.65rem;
-  }
-
-  @media (min-width: 1000px) {
-    .community {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.85fr);
-      gap: 2rem;
-    }
   }
 </style>

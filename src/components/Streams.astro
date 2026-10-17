@@ -5,6 +5,7 @@ import { twitch, youtube } from '../data/site.js';
 
 const parentParams = twitch.parents.map((parent) => `parent=${encodeURIComponent(parent)}`).join('&');
 const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentParams}`;
+const chatSrc = `https://www.twitch.tv/embed/${twitch.channel}/chat?${parentParams}&darkpopout`;
 ---
 
 <section class="section section--alt" id="transmissoes">
@@ -12,7 +13,7 @@ const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentP
     <h2 class="sr-only">Transmissões e vídeos</h2>
 
     <div class="streams">
-      <div class="panel" data-reveal>
+      <div class="panel panel--player" data-reveal>
         <div class="panel__head">
           <span class="panel__title">
             <Icon name="twitch" size={14} /> <span class="label">Twitch · {twitch.label}</span>
@@ -48,10 +49,46 @@ const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentP
             }
           </div>
         </div>
-
       </div>
 
-      <aside class="panel" data-reveal>
+      <aside class="panel panel--chat" data-reveal>
+        <div class="panel__head">
+          <span class="panel__title">
+            <Icon name="twitch" size={14} /> <span class="label">Chat da Twitch</span>
+          </span>
+          <a class="link" href={twitch.chatUrl} target="_blank" rel="noopener noreferrer">
+            Abrir <Icon name="external" size={12} />
+          </a>
+        </div>
+
+        <div class="panel__body">
+          <div class="frame frame--tall">
+            {
+              twitch.chatEmbed ? (
+                <iframe
+                  src={chatSrc}
+                  title={`Chat da Twitch do canal ${twitch.channel}`}
+                  loading="lazy"
+                />
+              ) : (
+                <div class="frame-fallback">
+                  <p>O embed do chat está desativado nas configurações.</p>
+                  <a
+                    class="btn btn--primary btn--sm"
+                    href={twitch.chatUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Abrir o chat
+                  </a>
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel panel--wide" data-reveal>
         <div class="panel__head">
           <span class="panel__title">
             <Icon name="youtube" size={14} />
@@ -119,10 +156,40 @@ const playerSrc = `https://player.twitch.tv/?channel=${twitch.channel}&${parentP
     color: var(--crimson-2);
   }
 
+  /* Em tela larga o chat fica do lado do player, com a mesma altura dele, e o
+     YouTube ocupa a largura toda embaixo. */
   @media (min-width: 1000px) {
     .streams {
-      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-      align-items: start;
+      grid-template-columns: minmax(0, 1.75fr) minmax(300px, 1fr);
+    }
+
+    .panel--player,
+    .panel--chat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Quem manda na altura é o player (vídeo 16:9); o chat estica junto. */
+    .panel--chat .panel__body {
+      flex: 1;
+      display: flex;
+    }
+
+    .panel--chat .frame {
+      flex: 1;
+      height: auto;
+      aspect-ratio: auto;
+    }
+
+    .panel--wide {
+      grid-column: 1 / -1;
+    }
+
+    .panel--wide .panel__body--stack {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) auto;
+      align-items: center;
+      gap: 2rem;
     }
   }
 </style>
