@@ -1,0 +1,102 @@
+---
+/**
+ * LibraryItem — uma capa da coleção.
+ * Mostra a capa (public/covers/<slug>.webp) e o nome do jogo. Se a capa ainda
+ * não foi baixada com `npm run capas`, o lugar dela mostra as iniciais do nome:
+ * melhor um espaço assumido do que uma imagem inventada.
+ */
+const { jogo } = Astro.props;
+
+const palavras = jogo.name
+  .replace(/[^\p{L}\p{N} ]/gu, ' ')
+  .split(/\s+/)
+  .filter(Boolean);
+
+const iniciais = (
+  palavras.length > 1
+    ? palavras.slice(0, 2).map((parte) => parte[0])
+    : [palavras[0]?.slice(0, 2) ?? '']
+)
+  .join('')
+  .toUpperCase();
+---
+
+<li class="capa">
+  <div class="capa__moldura">
+    {
+      jogo.cover ? (
+        <img
+          class="capa__img"
+          src={jogo.cover}
+          alt=""
+          width="300"
+          height="450"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span class="capa__iniciais" aria-hidden="true">
+          {iniciais}
+        </span>
+      )
+    }
+  </div>
+  <p class="capa__nome">{jogo.name}</p>
+</li>
+
+<style>
+  .capa {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .capa__moldura {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    transition: border-color 0.35s var(--ease), transform 0.35s var(--ease);
+  }
+
+  .capa__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .capa__iniciais {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    letter-spacing: 0.1em;
+    color: var(--silver-mute);
+  }
+
+  .capa__nome {
+    font-size: 0.68rem;
+    line-height: 1.35;
+    color: var(--silver-dim);
+    transition: color 0.35s var(--ease);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (hover: hover) {
+    .capa:hover .capa__moldura {
+      transform: translateY(-3px);
+      border-color: var(--line-strong);
+    }
+
+    .capa:hover .capa__nome {
+      color: var(--silver);
+    }
+  }
+</style>

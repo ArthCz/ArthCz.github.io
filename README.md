@@ -34,11 +34,13 @@ F:\Projetos\Site
 ├─ scripts\
 │  ├─ sync-ranks.mjs           ★ busca os ranks e a pontuação de cada personagem
 │  ├─ sync-feeds.mjs           ★ busca clipes da Twitch e Shorts do YouTube
+│  ├─ fetch-covers.mjs         baixa as capas da coleção de jogos
 │  └─ fetch-portrait.mjs       baixa o retrato de um personagem novo
 ├─ public\
 │  ├─ favicon.svg              marca da aba do navegador
 │  ├─ brand\
 │  │  └─ arthcz-avatar.png     ★ logo real do canal na Twitch
+│  ├─ covers\*.webp            capas da seção "Jogos que eu já joguei"
 │  ├─ games\
 │  │  ├─ street-fighter-6.jpg  capa do SF6
 │  │  └─ tekken-8.jpg          capa do Tekken 8
@@ -48,6 +50,7 @@ F:\Projetos\Site
 └─ src\
    ├─ data\
    │  ├─ site.js               ★ TODO O CONTEÚDO EDITÁVEL FICA AQUI
+   │  ├─ jogos.js              ★ a lista de jogos que você já jogou
    │  ├─ ranks.json            ★ ranks e partidas (gerado pelo npm run sync)
    │  ├─ feeds.json            ★ clipes e Shorts (gerado pelo npm run sync)
    │  └─ roster.js             junta o elenco fixo com os dados sincronizados
@@ -65,6 +68,8 @@ F:\Projetos\Site
       ├─ Games.astro           seção de fighting games
       ├─ GameCard.astro        card de um jogo (capa + menu de seleção)
       ├─ CharacterSelect.astro ★ menu de seleção de personagens e ranks
+      ├─ Library.astro         seção "Jogos que eu já joguei"
+      ├─ LibraryItem.astro     uma capa + o nome do jogo na coleção
       ├─ Community.astro       Discord, roteiro e chat da Twitch
       ├─ Footer.astro          rodapé com os canais
       ├─ SectionHeader.astro   cabeçalho padrão das seções
@@ -173,6 +178,25 @@ primeira vez o comando é rápido.
   no topo de `scripts\sync-feeds.mjs`.
 - Dá para rodar só um dos dois: `npm run sync:ranks` ou `npm run sync:feeds`.
 
+### Baixar as capas da coleção
+
+```powershell
+npm run capas
+```
+
+O script lê a lista de `src/data/jogos.js` e salva a capa de cada jogo em
+`public\covers\<slug>.webp`, sempre recortada no mesmo formato (300×450):
+
+| Ordem | Fonte | Quando |
+| --- | --- | --- |
+| 1 | Steam (capa vertical oficial da ficha do jogo) | quase todos |
+| 2 | Wikipédia (imagem da caixa) | clássicos de console, arcade e jogos fora da Steam |
+| 3 | nada | o site mostra as iniciais do nome no lugar — nunca uma capa inventada |
+
+O que já está em `public\covers\` não é baixado de novo. Para refazer tudo use
+`npm run capas -- --forcar`, e para um jogo só
+`npm run capas -- --so=tekken-8`. No fim ele lista o que ficou sem capa.
+
 ### O único dado que não é automático
 
 O **rank do jogo** e o **Tekken Prowess** do Tekken 8 só existem dentro do
@@ -243,6 +267,25 @@ colar no `roster`.
 1. Coloque a capa em `public\games\` (retrato, proporção 2:3, ex.: 600×900).
 2. Copie um bloco de `games` e ajuste `slug`, `name`, `meta`, `cover`, `links` e
    o `roster`. O card é gerado sozinho, na ordem da lista.
+
+### Adicionar um jogo à coleção
+
+A seção "Jogos que eu já joguei" é alimentada por `src/data/jogos.js`. Para
+incluir um jogo, acrescente uma linha:
+
+```js
+{ name: 'Nome no site', slug: 'nome-no-slug', steam: 'Nome na loja da Steam', wiki: 'Título na Wikipédia' },
+```
+
+- `slug` vira `public\covers\nome-no-slug.webp` — precisa ser único;
+- `steam` é o termo de busca na Steam (ou use `steamId: 12345` quando o nome
+  sozinho for ambíguo, como "Resident Evil 4", que tem duas versões);
+- `wiki` é o plano B, para jogos que não estão na Steam. Em jogos de console é o
+  único caminho.
+
+Depois rode `npm run capas` — ele baixa só a capa que falta. A ordem da lista é
+a ordem da parede no site; os 20 primeiros aparecem de cara e o resto abre em
+"Ver todos os jogos".
 
 ### Trocar o convite do Discord
 

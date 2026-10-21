@@ -1,0 +1,140 @@
+/**
+ * ArthCz Arena — jogos que já joguei
+ * ---------------------------------------------------------------------------
+ * A lista abaixo é a fonte da seção "Jogos que eu já joguei". Cada item tem:
+ *
+ *   name     → como o jogo aparece no site
+ *   slug     → nome do arquivo da capa em public/covers/<slug>.webp
+ *   steam    → termo de busca na loja da Steam (de onde vem a capa)
+ *   steamId  → appid fixo, quando o nome sozinho é ambíguo
+ *   wiki     → título na Wikipédia em inglês, usado quando o jogo não está na
+ *              Steam (clássicos de console, arcade etc.)
+ *
+ * As capas NÃO são geradas no build: `npm run capas` baixa, recorta no mesmo
+ * formato (300×450) e salva em public/covers/. Os arquivos ficam versionados,
+ * então o site nunca depende de imagem externa em tempo de execução.
+ *
+ * Ordem: a mesma que o Arth mandou — saga Resident Evil, lançamentos recentes,
+ * o que ele jogou em 2023 e depois a lista clássica.
+ */
+
+export const jogos = [
+  // Resident Evil — a saga inteira
+  { name: 'Resident Evil 0', slug: 'resident-evil-0', steam: 'Resident Evil 0', wiki: 'Resident Evil Zero' },
+  { name: 'Resident Evil', slug: 'resident-evil-1996', wiki: 'Resident Evil (1996 video game)' },
+  { name: 'Resident Evil 2 (1998)', slug: 'resident-evil-2-1998', wiki: 'Resident Evil 2' },
+  { name: 'Resident Evil 2 (2019)', slug: 'resident-evil-2-2019', steam: 'Resident Evil 2', wiki: 'Resident Evil 2 (2019 video game)' },
+  { name: 'Resident Evil 3: Nemesis', slug: 'resident-evil-3-nemesis', wiki: 'Resident Evil 3: Nemesis' },
+  { name: 'Resident Evil 3', slug: 'resident-evil-3-2020', steam: 'Resident Evil 3', wiki: 'Resident Evil 3 (2020 video game)' },
+  { name: 'Resident Evil: Gun Survivor', slug: 'resident-evil-gun-survivor', wiki: 'Resident Evil: Survivor' },
+  { name: 'Resident Evil: Gun Survivor 2', slug: 'resident-evil-gun-survivor-2', wiki: 'Resident Evil: Survivor 2 – Code: Veronica' },
+  { name: 'Resident Evil Outbreak', slug: 'resident-evil-outbreak', wiki: 'Resident Evil Outbreak', wikiFile: 'File:Re outbreak a.jpg' },
+  { name: 'Resident Evil Outbreak: File #2', slug: 'resident-evil-outbreak-file-2', wiki: 'Resident Evil Outbreak: File 2', wikiFile: 'File:Resident Evil Outbreak File 2.jpg' },
+  { name: 'Resident Evil: Code Veronica X', slug: 'resident-evil-code-veronica-x', wiki: 'Resident Evil – Code: Veronica' },
+  { name: 'Resident Evil: The Umbrella Chronicles', slug: 'resident-evil-umbrella-chronicles', wiki: 'Resident Evil: The Umbrella Chronicles' },
+  { name: 'Resident Evil: Dead Aim', slug: 'resident-evil-dead-aim', wiki: 'Resident Evil: Dead Aim' },
+  { name: 'Resident Evil 4 (2005)', slug: 'resident-evil-4-2005', steam: 'Resident Evil 4 (2005)', steamId: 254700, wiki: 'Resident Evil 4' },
+  { name: 'Resident Evil: Operation Raccoon City', slug: 'resident-evil-operation-raccoon-city', steam: 'Resident Evil: Operation Raccoon City', wiki: 'Resident Evil: Operation Raccoon City', wikiFile: 'File:OperationRaccoonCity.jpg' },
+  { name: 'Resident Evil 4 (2023)', slug: 'resident-evil-4-2023', steam: 'Resident Evil 4', steamId: 2050650, wiki: 'Resident Evil 4 (2023 video game)' },
+  { name: 'Resident Evil Requiem', slug: 'resident-evil-requiem', steam: 'Resident Evil Requiem', wiki: 'Resident Evil Requiem' },
+
+  // Lançamentos e jogos recentes
+  { name: 'Pragmata', slug: 'pragmata', steam: 'Pragmata', steamId: 3357650, wiki: 'Pragmata' },
+  { name: 'Stellar Blade', slug: 'stellar-blade', steam: 'Stellar Blade', wiki: 'Stellar Blade' },
+  { name: 'Final Fantasy XVI', slug: 'final-fantasy-16', steam: 'FINAL FANTASY XVI', wiki: 'Final Fantasy XVI' },
+  { name: 'Silent Hill 2', slug: 'silent-hill-2', steam: 'SILENT HILL 2', wiki: 'Silent Hill 2 (2024 video game)' },
+  { name: 'Black Myth: Wukong', slug: 'black-myth-wukong', steam: 'Black Myth: Wukong', wiki: 'Black Myth: Wukong' },
+  { name: 'Sonic Frontiers', slug: 'sonic-frontiers', steam: 'Sonic Frontiers', wiki: 'Sonic Frontiers' },
+  { name: 'The First Berserker: Khazan (demo)', slug: 'first-berserker-khazan', steam: 'The First Berserker: Khazan', wiki: 'The First Berserker: Khazan' },
+  { name: 'Final Fantasy VII Rebirth', slug: 'final-fantasy-7-rebirth', steam: 'FINAL FANTASY VII REBIRTH', wiki: 'Final Fantasy VII Rebirth' },
+  { name: 'Monster Hunter Wilds', slug: 'monster-hunter-wilds', steam: 'Monster Hunter Wilds', wiki: 'Monster Hunter Wilds' },
+  { name: 'Split Fiction', slug: 'split-fiction', steam: 'Split Fiction', wiki: 'Split Fiction' },
+  { name: 'Lords of the Fallen', slug: 'lords-of-the-fallen', steam: 'Lords of the Fallen', wiki: 'Lords of the Fallen (2023 video game)' },
+  { name: "Baldur's Gate 3", slug: 'baldurs-gate-3', steam: "Baldur's Gate 3", wiki: "Baldur's Gate 3" },
+  { name: 'Fatal Fury: City of the Wolves', slug: 'fatal-fury-city-of-the-wolves', steam: 'FATAL FURY: City of the Wolves', wiki: 'Fatal Fury: City of the Wolves' },
+  { name: '2XKO', slug: '2xko', wiki: '2XKO' },
+  { name: 'Clair Obscur: Expedition 33', slug: 'clair-obscur-expedition-33', steam: 'Clair Obscur: Expedition 33', wiki: 'Clair Obscur: Expedition 33' },
+  { name: 'Elden Ring Nightreign', slug: 'elden-ring-nightreign', steam: 'ELDEN RING NIGHTREIGN', wiki: 'Elden Ring Nightreign' },
+  { name: 'MU Dark Epoch', slug: 'mu-dark-epoch' },
+  { name: 'Ninja Gaiden: Ragebound (demo)', slug: 'ninja-gaiden-ragebound', steam: 'NINJA GAIDEN: Ragebound', wiki: 'Ninja Gaiden: Ragebound' },
+  { name: 'Guilty Gear Strive', slug: 'guilty-gear-strive', steam: 'GUILTY GEAR -STRIVE-', wiki: 'Guilty Gear Strive' },
+  { name: 'Sonic X Shadow Generations', slug: 'sonic-x-shadow-generations', steam: 'Sonic X Shadow Generations', wiki: 'Sonic X Shadow Generations' },
+  { name: 'Gears of War: Reloaded', slug: 'gears-of-war-reloaded', steam: 'Gears of War: Reloaded', steamId: 2523720, steamHeader: true },
+  { name: 'PEAK', slug: 'peak', steam: 'PEAK', steamId: 3527290, wiki: 'Peak (video game)' },
+  { name: 'Metal Gear Solid Delta: Snake Eater', slug: 'metal-gear-solid-delta', steam: 'METAL GEAR SOLID Δ: SNAKE EATER', wiki: 'Metal Gear Solid Delta: Snake Eater' },
+  { name: 'Sonic Racing: CrossWorlds (beta)', slug: 'sonic-racing-crossworlds', steam: 'Sonic Racing: CrossWorlds', wiki: 'Sonic Racing: CrossWorlds' },
+  { name: "Path of Exile 2", slug: 'path-of-exile-2', steam: 'Path of Exile 2', wiki: 'Path of Exile 2' },
+  { name: 'Hollow Knight: Silksong', slug: 'hollow-knight-silksong', steam: 'Hollow Knight: Silksong', wiki: 'Hollow Knight: Silksong' },
+  { name: 'skate.', slug: 'skate', steam: 'skate.', wiki: 'Skate (2025 video game)' },
+  { name: 'Guitar Hero III: Legends of Rock', slug: 'guitar-hero-3', wiki: 'Guitar Hero III: Legends of Rock' },
+  { name: 'Battlefield 6', slug: 'battlefield-6', steam: 'Battlefield 6', wiki: 'Battlefield 6' },
+  { name: 'Hades II', slug: 'hades-2', steam: 'Hades II', wiki: 'Hades II' },
+  { name: 'Balatro', slug: 'balatro', steam: 'Balatro', wiki: 'Balatro' },
+  { name: 'Risk of Rain 2', slug: 'risk-of-rain-2', steam: 'Risk of Rain 2', wiki: 'Risk of Rain 2' },
+
+  // O que passou por aqui em 2023
+  { name: 'Monster Hunter: World', slug: 'monster-hunter-world', steam: 'Monster Hunter: World', wiki: 'Monster Hunter: World' },
+  { name: 'Monster Hunter Rise', slug: 'monster-hunter-rise', steam: 'Monster Hunter Rise', wiki: 'Monster Hunter Rise' },
+  { name: 'Alan Wake 2', slug: 'alan-wake-2', steam: 'Alan Wake 2', wiki: 'Alan Wake 2' },
+  { name: 'Super Mario World', slug: 'super-mario-world', wiki: 'Super Mario World' },
+  { name: 'Tekken 3', slug: 'tekken-3', wiki: 'Tekken 3' },
+  { name: 'Mighty Morphin Power Rangers: The Movie', slug: 'power-rangers-the-movie', wiki: 'Mighty Morphin Power Rangers: The Movie (video game)', wikiFile: 'File:Mightymorph01.jpg' },
+  { name: 'Palworld', slug: 'palworld', steam: 'Palworld', wiki: 'Palworld' },
+  { name: 'Prince of Persia: The Lost Crown', slug: 'prince-of-persia-the-lost-crown', steam: 'Prince of Persia: The Lost Crown', wiki: 'Prince of Persia: The Lost Crown' },
+  { name: 'Tekken 8', slug: 'tekken-8', steam: 'TEKKEN 8', wiki: 'Tekken 8' },
+  { name: 'Granblue Fantasy: Relink', slug: 'granblue-fantasy-relink', steam: 'Granblue Fantasy: Relink', wiki: 'Granblue Fantasy: Relink' },
+  { name: 'Gravity Circuit', slug: 'gravity-circuit', steam: 'Gravity Circuit', wiki: 'Gravity Circuit' },
+  { name: 'Tekken 4', slug: 'tekken-4', wiki: 'Tekken 4' },
+  { name: 'Tekken 6', slug: 'tekken-6', wiki: 'Tekken 6' },
+
+  // Lista clássica
+  { name: 'Alien: Isolation', slug: 'alien-isolation', steam: 'Alien: Isolation', wiki: 'Alien: Isolation' },
+  { name: 'Castlevania: Symphony of the Night', slug: 'castlevania-symphony-of-the-night', wiki: 'Castlevania: Symphony of the Night' },
+  { name: 'Call of Duty: Warzone', slug: 'call-of-duty-warzone', steam: 'Call of Duty: Warzone', wiki: 'Call of Duty: Warzone' },
+  { name: 'Cuphead', slug: 'cuphead', steam: 'Cuphead', wiki: 'Cuphead' },
+  { name: 'Dark Souls', slug: 'dark-souls', steam: 'DARK SOULS: REMASTERED', wiki: 'Dark Souls (video game)' },
+  { name: 'Dark Souls II', slug: 'dark-souls-2', steam: 'DARK SOULS II: Scholar of the First Sin', wiki: 'Dark Souls II' },
+  { name: 'Dark Souls III', slug: 'dark-souls-3', steam: 'DARK SOULS III', wiki: 'Dark Souls III' },
+  { name: 'Detroit: Become Human', slug: 'detroit-become-human', steam: 'Detroit: Become Human', wiki: 'Detroit: Become Human' },
+  { name: 'Devil May Cry 5', slug: 'devil-may-cry-5', steam: 'Devil May Cry 5', wiki: 'Devil May Cry 5' },
+  { name: 'Dragon Ball Z: Kakarot', slug: 'dragon-ball-z-kakarot', steam: 'DRAGON BALL Z: KAKAROT', wiki: 'Dragon Ball Z: Kakarot' },
+  { name: "Dragon's Dogma: Dark Arisen", slug: 'dragons-dogma-dark-arisen', steam: "Dragon's Dogma: Dark Arisen", wiki: "Dragon's Dogma" },
+  { name: 'Elden Ring', slug: 'elden-ring', steam: 'ELDEN RING', wiki: 'Elden Ring' },
+  { name: 'Final Fantasy VII Remake', slug: 'final-fantasy-7-remake', steam: 'FINAL FANTASY VII REMAKE INTERGRADE', wiki: 'Final Fantasy VII Remake' },
+  { name: 'Final Fantasy XIII', slug: 'final-fantasy-13', steam: 'FINAL FANTASY XIII', wiki: 'Final Fantasy XIII' },
+  { name: 'Final Fantasy XIII-2', slug: 'final-fantasy-13-2', steam: 'FINAL FANTASY XIII-2', steamId: 292140, wiki: 'Final Fantasy XIII-2' },
+  { name: 'Final Fantasy XV', slug: 'final-fantasy-15', steam: 'FINAL FANTASY XV WINDOWS EDITION', wiki: 'Final Fantasy XV' },
+  { name: 'God of War (2005)', slug: 'god-of-war-2005', wiki: 'God of War (2005 video game)' },
+  { name: 'God of War II', slug: 'god-of-war-2', wiki: 'God of War II' },
+  { name: 'God of War (2018)', slug: 'god-of-war-2018', steam: 'God of War', wiki: 'God of War (2018 video game)' },
+  { name: 'Hellblade: Senua’s Sacrifice', slug: 'hellblade-senuas-sacrifice', steam: "Hellblade: Senua's Sacrifice", wiki: "Hellblade: Senua's Sacrifice" },
+  { name: 'Mario Kart 8', slug: 'mario-kart-8', wiki: 'Mario Kart 8' },
+  { name: 'Marvel vs. Capcom', slug: 'marvel-vs-capcom', wiki: 'Marvel vs. Capcom: Clash of Super Heroes' },
+  { name: 'Metal Gear Rising: Revengeance', slug: 'metal-gear-rising-revengeance', steam: 'Metal Gear Rising: Revengeance', wiki: 'Metal Gear Rising: Revengeance' },
+  { name: 'Nioh', slug: 'nioh', steam: 'Nioh: Complete Edition', wiki: 'Nioh' },
+  { name: 'Onimusha: Warlords', slug: 'onimusha-warlords', steam: 'Onimusha: Warlords', wiki: 'Onimusha: Warlords' },
+  { name: 'Ori and the Blind Forest', slug: 'ori-and-the-blind-forest', steam: 'Ori and the Blind Forest: Definitive Edition', wiki: 'Ori and the Blind Forest' },
+  { name: 'Overwatch', slug: 'overwatch', wiki: 'Overwatch (video game)' },
+  { name: 'Persona 4 Golden', slug: 'persona-4-golden', steam: 'Persona 4 Golden', wiki: 'Persona 4 Golden' },
+  { name: 'Resident Evil 5', slug: 'resident-evil-5', steam: 'Resident Evil 5', wiki: 'Resident Evil 5' },
+  { name: 'Resident Evil 6', slug: 'resident-evil-6', steam: 'Resident Evil 6', wiki: 'Resident Evil 6' },
+  { name: 'Resident Evil 7: Biohazard', slug: 'resident-evil-7', steam: 'Resident Evil 7 Biohazard', wiki: 'Resident Evil 7: Biohazard' },
+  { name: 'Resident Evil HD Remaster', slug: 'resident-evil-hd-remaster', steam: 'Resident Evil HD Remaster', steamId: 304240, wiki: 'Resident Evil (2002 video game)' },
+  { name: 'Resident Evil Village', slug: 'resident-evil-village', steam: 'Resident Evil Village', wiki: 'Resident Evil Village' },
+  { name: 'Sekiro: Shadows Die Twice', slug: 'sekiro-shadows-die-twice', steam: 'Sekiro: Shadows Die Twice', wiki: 'Sekiro: Shadows Die Twice' },
+  { name: 'Shadow the Hedgehog', slug: 'shadow-the-hedgehog', wiki: 'Shadow the Hedgehog (video game)' },
+  { name: 'Sonic the Hedgehog 2', slug: 'sonic-the-hedgehog-2', wiki: 'Sonic the Hedgehog 2' },
+  { name: 'Sonic Adventure', slug: 'sonic-adventure', steam: 'Sonic Adventure DX', wiki: 'Sonic Adventure' },
+  { name: 'Sonic Adventure 2', slug: 'sonic-adventure-2', steam: 'Sonic Adventure 2', wiki: 'Sonic Adventure 2' },
+  { name: 'Sonic Heroes', slug: 'sonic-heroes', wiki: 'Sonic Heroes' },
+  { name: 'Sonic the Hedgehog (2006)', slug: 'sonic-2006', wiki: 'Sonic the Hedgehog (2006 video game)' },
+  { name: 'Sonic & All-Stars Racing Transformed', slug: 'sonic-all-stars-racing-transformed', steam: 'Sonic & All-Stars Racing Transformed Collection', wiki: 'Sonic & All-Stars Racing Transformed' },
+  { name: 'Super Mario 3D World', slug: 'super-mario-3d-world', wiki: 'Super Mario 3D World' },
+  { name: 'Super Metroid', slug: 'super-metroid', wiki: 'Super Metroid', wikiFile: 'File:Smetroidbox.jpg' },
+  { name: 'Team Sonic Racing', slug: 'team-sonic-racing', steam: 'Team Sonic Racing', wiki: 'Team Sonic Racing' },
+  { name: "The King of Fighters '98", slug: 'king-of-fighters-98', steam: "THE KING OF FIGHTERS '98 ULTIMATE MATCH FINAL EDITION", wiki: "The King of Fighters '98" },
+  { name: 'The King of Fighters 2002', slug: 'king-of-fighters-2002', steam: 'THE KING OF FIGHTERS 2002 UNLIMITED MATCH', wiki: 'The King of Fighters 2002' },
+  { name: 'The King of Fighters XIII', slug: 'king-of-fighters-13', steam: 'THE KING OF FIGHTERS XIII STEAM EDITION', wiki: 'The King of Fighters XIII' },
+  { name: 'The King of Fighters XV', slug: 'king-of-fighters-15', steam: 'THE KING OF FIGHTERS XV', wiki: 'The King of Fighters XV' },
+  { name: 'The Legend of Zelda: Breath of the Wild', slug: 'zelda-breath-of-the-wild', wiki: 'The Legend of Zelda: Breath of the Wild' },
+];

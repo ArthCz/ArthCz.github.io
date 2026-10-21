@@ -1,0 +1,113 @@
+---
+/**
+ * Library — "Jogos que eu já joguei": uma parede de capas.
+ *
+ * A lista é longa (111 jogos), então a seção mostra as primeiras capas e deixa
+ * o resto dentro de um <details>: a página não cresce sem pedido e a coleção
+ * inteira continua acessível sem JavaScript.
+ *
+ * As capas ficam em public/covers/ e são baixadas por `npm run capas`.
+ */
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import SectionHeader from './SectionHeader.astro';
+import LibraryItem from './LibraryItem.astro';
+import { jogos } from '../data/jogos.js';
+
+const PREVIEW = 20;
+
+const coverPath = (slug) =>
+  existsSync(fileURLToPath(new URL(`../../public/covers/${slug}.webp`, import.meta.url)))
+    ? `/covers/${slug}.webp`
+    : null;
+
+const todos = jogos.map((jogo) => ({ ...jogo, cover: coverPath(jogo.slug) }));
+const previa = todos.slice(0, PREVIEW);
+const resto = todos.slice(PREVIEW);
+const total = todos.length;
+---
+
+<section class="section section--alt" id="jogos">
+  <div class="container">
+    <SectionHeader
+      eyebrow="Biblioteca"
+      title="Jogos que eu já joguei"
+      lead={`${total} jogos que já passaram por aqui: do Resident Evil original aos lançamentos de agora.`}
+    />
+
+    <ul class="parede" data-reveal>
+      {previa.map((jogo) => <LibraryItem jogo={jogo} />)}
+    </ul>
+
+    {
+      resto.length > 0 && (
+        <details class="parede-mais">
+          <summary class="parede-mais__botao">
+            <span class="parede-mais__abrir">Ver todos os {total} jogos</span>
+            <span class="parede-mais__fechar">Mostrar menos</span>
+          </summary>
+          <ul class="parede">
+            {resto.map((jogo) => <LibraryItem jogo={jogo} />)}
+          </ul>
+        </details>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .parede {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(clamp(72px, 8.5vw, 104px), 1fr));
+    gap: clamp(0.9rem, 1.6vw, 1.15rem) clamp(0.5rem, 1vw, 0.75rem);
+    padding: 0;
+    list-style: none;
+  }
+
+  .parede-mais {
+    margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  }
+
+  .parede-mais__botao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin-inline: auto;
+    padding: 0.9rem 1.6rem;
+    border: 1px solid var(--line-mid);
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--silver-2);
+    cursor: pointer;
+    list-style: none;
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+
+  .parede-mais__botao::-webkit-details-marker {
+    display: none;
+  }
+
+  .parede-mais__botao::marker {
+    content: '';
+  }
+
+  .parede-mais__botao:hover {
+    border-color: var(--crimson);
+    color: var(--silver);
+  }
+
+  .parede-mais[open] > .parede-mais__botao {
+    margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+  }
+
+  .parede-mais:not([open]) .parede-mais__fechar {
+    display: none;
+  }
+
+  .parede-mais[open] .parede-mais__abrir {
+    display: none;
+  }
+</style>

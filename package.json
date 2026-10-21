@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "sync": "node scripts/sync-ranks.mjs && node scripts/sync-feeds.mjs",
     "sync:ranks": "node scripts/sync-ranks.mjs",
-    "sync:feeds": "node scripts/sync-feeds.mjs"
+    "sync:feeds": "node scripts/sync-feeds.mjs",
+    "capas": "node scripts/fetch-covers.mjs"
   },
   "dependencies": {
     "astro": "^5.6.1"

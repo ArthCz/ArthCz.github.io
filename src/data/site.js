@@ -32,6 +32,7 @@ export const navLinks = [
   { label: 'Início', href: '#inicio' },
   { label: 'Transmissões', href: '#transmissoes' },
   { label: 'Fighting games', href: '#fighting-games' },
+  { label: 'Jogos', href: '#jogos' },
   { label: 'Comunidade', href: '#comunidade' },
 ];
 
